@@ -167,9 +167,9 @@ z-index: 1000;
 }
 .a_container .row .about_right
 {
-    width: 500px;
+    width: 1000px;
     text-align: justify;
-    font-size: 25px;
+    font-size: 15px;
     color: white;
     font-family: 'Sriracha', cursive;
     padding-right: 30px;
