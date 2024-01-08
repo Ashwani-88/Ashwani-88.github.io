@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RA and Dec Converter</title>
+</head>
+<body>
+
+    <h2>RA and Dec Converter</h2>
+
+    <label for="raInput">Enter RA in degrees:</label>
+    <input type="number" id="raInput" step="any" placeholder="e.g., 120.5">
+
+    <br>
+
+    <label for="decInput">Enter Dec in degrees:</label>
+    <input type="number" id="decInput" step="any" placeholder="e.g., 35.75">
+
+    <br>
+
+    <button onclick="convert()">Convert</button>
+
+    <br>
+
+    <h3>Converted Values:</h3>
+    <p id="convertedValues"></p>
+
+    <script>
+        function degToHMS(degrees) {
+            const hours = Math.floor(degrees / 15);
+            const minutes = Math.floor((degrees % 15) * 4);
+            const seconds = ((degrees % 15) * 4 - minutes) * 60;
+
+            return `${hours}h ${minutes}m ${seconds.toFixed(2)}s`;
+        }
+
+        function degToDMS(degrees) {
+            const sign = degrees >= 0 ? '+' : '-';
+            degrees = Math.abs(degrees);
+            const degreesInt = Math.floor(degrees);
+            const minutes = Math.floor((degrees - degreesInt) * 60);
+            const seconds = ((degrees - degreesInt) * 60 - minutes) * 60;
+
+            return `${sign}${degreesInt}° ${minutes}' ${seconds.toFixed(2)}"`;
+        }
+
+        function convert() {
+            const raInput = document.getElementById("raInput").value;
+            const decInput = document.getElementById("decInput").value;
+
+            const raConverted = degToHMS(parseFloat(raInput));
+            const decConverted = degToDMS(parseFloat(decInput));
+
+            document.getElementById("convertedValues").innerHTML = `RA: ${raConverted} <br> Dec: ${decConverted}`;
+        }
+    </script>
+
+</body>
+</html>
+
