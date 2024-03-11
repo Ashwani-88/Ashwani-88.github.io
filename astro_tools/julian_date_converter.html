@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julian Date Converter</title>
+    <link href="tools_style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Julian Date Converter</h2>
+
+        <label for="calendarDate">Enter Calendar Date (MM/DD/YYYY):</label>
+        <input type="date" id="calendarDate" >
+
+        <br>
+
+
+        <button onclick="convertToJulian()">Convert to Julian Date</button>
+        
+        
+        <br>
+
+        <label for="julianDate">Enter Julian Date:</label>
+        <input type="number" id="julianDate" placeholder="Enter Julian Date">
+
+        <br>
+
+        
+        <button onclick="convertToCalendar()">Convert to Calendar Date</button>
+
+        <br>
+
+        <h2>Converted Value:</h3>
+        <p id="convertedValue"></p>
+    
+    </div>
+    <script>
+        function convertToJulian() {
+            const calendarDateInput = document.getElementById("calendarDate").value;
+            const calendarDate = new Date(calendarDateInput);
+            
+            if (!isNaN(calendarDate.getTime())) {
+                const julianDate = calendarDate.getTime() / (24 * 60 * 60 * 1000) + 2440587.5;
+                document.getElementById("convertedValue").innerHTML = `Julian Date: ${julianDate.toFixed(5)}`;
+            } else {
+                document.getElementById("convertedValue").innerHTML = "Invalid Calendar Date";
+            }
+        }
+
+        function convertToCalendar() {
+            const julianDateInput = document.getElementById("julianDate").value;
+            const julianDate = parseFloat(julianDateInput);
+
+            if (!isNaN(julianDate)) {
+                const milliseconds = (julianDate - 2440587.5) * (24 * 60 * 60 * 1000);
+                const calendarDate = new Date(milliseconds);
+                const formattedDate = calendarDate.toISOString().split('T')[0];
+                document.getElementById("convertedValue").innerHTML = `Calendar Date: ${formattedDate}`;
+            } else {
+                document.getElementById("convertedValue").innerHTML = "Invalid Julian Date";
+            }
+        }
+    </script>
+
+</body>
+</html>
+
