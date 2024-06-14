@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wavelength to Frequency Converter</title>
+    <link href="tools_style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Wavelength to Frequency Converter</h1>
+
+        <label for="wavelength">Enter wavelength (in Angstrom):</label>
+        <input type="number" id="wavelength" placeholder="Enter wavelength"><br>    
+        <button onclick="convertToFrequency()">Convert to Frequency</button><br>
+        
+        <label for="frequency">Enter Frequency (in Hertz):</label>
+        <input type="number" id="frequency" placeholder="Enter frequency"><br>        
+        <button onclick="convertToWavelength()">Convert to Wavelength</button> <br>
+
+        <label for="energy">Enter Energy (in KeV):</label>
+        <input type="number" id="energy" placeholder="Enter energy"><br>        
+        <button onclick="convertToWaveAndFreq()">Convert to Angstrom and Hz</button> <br>
+
+        <h2>Converted Value:</h3>
+        <p id="convertedValue"></p>
+    
+    </div>
+    <script>
+        function convertToFrequency() {
+            const wavelength = parseFloat(document.getElementById("wavelength").value);
+            if (wavelength > 0) {
+                // Convert Angstrom to meters (1 Angstrom = 1e-10 meters)
+                const wavelengthMeters = wavelength* 1e-10;
+                const planckconst = 4.1357 * 1e-15; // eV-sec.
+                // Speed of light (approximately 299,792,458 meters per second)
+                const speedOfLight = 299792458;
+                
+                const frequency = speedOfLight / wavelengthMeters;
+                const energy = frequency * planckconst;
+                const energyKeV = energy/100;
+                document.getElementById("convertedValue").textContent = "Frequency = " + frequency.toExponential(4) + " Hz,  Energy = " + energyKeV.toFixed(4) + " KeV";
+            } else {
+                document.getElementById("convertedValue").textContent = "Invalid wavelength";
+            }
+        }
+            
+        function convertToWavelength() {
+            const frequency = parseFloat(document.getElementById("frequency").value);
+            if (frequency > 0) {
+               
+                // Speed of light (approximately 299,792,458 meters per second)
+                const speedOfLight = 299792458;
+                const planckconst = 4.1357 * 1e-15; // eV-sec.
+                const wavelength = speedOfLight / frequency;
+                const wavelengthAngstrom = wavelength * 1e10
+                const energy = frequency * planckconst;
+                const energyKeV = energy/100;
+                document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toFixed(4) + " Angstrom,  Energy = " + energyKeV.toFixed(4) + " KeV";
+            
+            } else {
+                document.getElementById("convertedValue").textContent = "Invalid frequency";
+            }
+        }
+
+
+
+        function convertToWaveAndFreq() {
+            const energy = parseFloat(document.getElementById("energy").value);
+            if (energy > 0) {
+                const energyeV = energy * 100
+                // Speed of light (approximately 299,792,458 meters per second)
+                const speedOfLight = 299792458;
+                const planckconst = 4.1357 * 1e-15; // eV-sec.
+                const frequency = energyeV / planckconst;
+                const wavelength = speedOfLight / frequency;
+                const wavelengthAngstrom = wavelength * 1e10
+                document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toFixed(4) + " Angstrom,  Frequency = " + frequency.toExponential(4) + " Hz";
+            
+            } else {
+                document.getElementById("convertedValue").textContent = "Invalid energy";
+            }
+        }
+    </script>
+
+</body>
+</html>
