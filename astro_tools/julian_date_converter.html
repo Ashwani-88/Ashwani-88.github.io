@@ -12,13 +12,14 @@
 
         <label for="calendarDate">Enter Calendar Date (DD/MM/YYYY):</label>
         <input type="date" id="calendarDate" >
-
         <br>
+        <button onclick="convertToJulian()">Convert to Julian Date</button> 
+        <br>
+        <label for="ModifiedjulianDate">Enter Modified Julian Date (MJD):</label>
+        <input type="number" id="MJD" placeholder="Enter MJD">
+        <br>
+        <button onclick="convertToJD()">Convert to Julian Date</button>
 
-
-        <button onclick="convertToJulian()">Convert to Julian Date</button>
-        
-        
         <br>
 
         <label for="julianDate">Enter Julian Date:</label>
@@ -56,9 +57,20 @@
                 const milliseconds = (julianDate - 2440587.5) * (24 * 60 * 60 * 1000);
                 const calendarDate = new Date(milliseconds);
                 const formattedDate = calendarDate.toISOString().split('T')[0];
-                document.getElementById("convertedValue").innerHTML = `Calendar Date: ${formattedDate}`;
+                document.getElementById("convertedValue").innerHTML = `Calendar Date (YYYY-MM-DD): ${formattedDate}`;
             } else {
                 document.getElementById("convertedValue").innerHTML = "Invalid Julian Date";
+            }
+        }
+        function convertToJD() {
+            const MJDInput = document.getElementById("MJD").value;
+            const MJD_val = parseFloat(MJDInput);
+
+            if (!isNaN(MJD_val)) {
+                const JD_val = 2400000.5 + MJD_val;
+                document.getElementById("convertedValue").innerHTML = `JD: ${JD_val}`;
+            } else {
+                document.getElementById("convertedValue").innerHTML = "Invalid MJD";
             }
         }
     </script>
