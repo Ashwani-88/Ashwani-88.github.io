@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RA and Dec Converter</title>
+
+    <link rel="stylesheet" href="tools_style.css" />
+    <style>
+      input {
+        width: 70px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>RA and Dec Converter</h1>
+      <h2>From Sexigesimal coordinates to degrees</h2>
+      <div>
+        <label>Enter RA in hr:mm:ss:</label>
+        <label for="ra-hours">Hours:</label>
+        <input type="number" id="ra-hours" step="1" value="0" />
+        <label for="ra-minutes">Minutes:</label>
+        <input type="number" id="ra-minutes" step="1" value="0" />
+        <label for="ra-seconds">Seconds:</label>
+        <input type="number" id="ra-seconds" step="0.1" value="0.0" />
+      </div>
+      <br />
+      <div>
+        <label>Enter DEC in deg:mm:ss:</label>
+        <label for="dec-degrees">Degrees:</label>
+        <input type="number" id="dec-degrees" step="1" value="0" />
+        <label for="dec-minutes">Minutes:</label>
+        <input type="number" id="dec-minutes" step="1" value="0" />
+        <label for="dec-seconds">Seconds:</label>
+        <input type="number" id="dec-seconds" step="0.1" value="0.0" />
+      </div>
+
+      <button onclick="convert()">Convert</button>
+      <br />
+
+      <h2>Converted Values:</h2>
+      <p id="convertedValues"></p>
+    </div>
+
+    <script>
+      function convert() {
+        // Get RA values
+        const raHours = parseFloat(document.getElementById("ra-hours").value);
+        const raMinutes = parseFloat(
+          document.getElementById("ra-minutes").value
+        );
+        const raSeconds = parseFloat(
+          document.getElementById("ra-seconds").value
+        );
+
+        // Convert RA from hms to degrees
+        const raInDegrees = raHours * 15 + raMinutes / 4 + raSeconds / 240;
+
+        // Get Dec values
+        const decDegrees = parseFloat(
+          document.getElementById("dec-degrees").value
+        );
+        const decMinutes = parseFloat(
+          document.getElementById("dec-minutes").value
+        );
+        const decSeconds = parseFloat(
+          document.getElementById("dec-seconds").value
+        );
+
+        let decInDegrees =
+          Math.abs(decDegrees) + decMinutes / 60 + decSeconds / 3600;
+        decInDegrees = decDegrees < 0 ? -decInDegrees : decInDegrees;
+
+        document.getElementById(
+          "convertedValues"
+        ).innerHTML = `RA: ${raInDegrees.toFixed(5)}° <br>   
+        Dec: ${decInDegrees.toFixed(5)}°`;
+      }
+    </script>
+  </body>
+</html>
