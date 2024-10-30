@@ -186,6 +186,7 @@ nav ul a:hover {
 
 .container-box .contents {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   padding: 10px 10px;
   font-size: 20px;
@@ -257,7 +258,7 @@ nav ul a:hover {
 }
 
 .container-box .contents .col {
-  width: 650px;
+  width: 500px;
   border: 1px solid black;
   padding: 20px;
   margin: 10px 40px;
