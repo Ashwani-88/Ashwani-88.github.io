@@ -161,7 +161,7 @@ nav ul a:hover {
 }
 .container-box {
   display: flexbox;
-  margin: 100px 100px;
+  margin: 50px 50px;
   justify-content: center;
   border: 1px solid black;
   align-items: center;
