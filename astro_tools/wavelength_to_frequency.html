@@ -38,7 +38,7 @@
                 
                 const frequency = speedOfLight / wavelengthMeters;
                 const energy = frequency * planckconst;
-                const energyKeV = energy/100;
+                const energyKeV = energy/1000;
                 document.getElementById("convertedValue").textContent = "Frequency = " + frequency.toExponential(4) + " Hz,  Energy = " + energyKeV.toFixed(4) + " KeV";
             } else {
                 document.getElementById("convertedValue").textContent = "Invalid wavelength";
@@ -55,7 +55,7 @@
                 const wavelength = speedOfLight / frequency;
                 const wavelengthAngstrom = wavelength * 1e10
                 const energy = frequency * planckconst;
-                const energyKeV = energy/100;
+                const energyKeV = energy/1000;
                 document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toFixed(4) + " Angstrom,  Energy = " + energyKeV.toFixed(4) + " KeV";
             
             } else {
@@ -68,7 +68,7 @@
         function convertToWaveAndFreq() {
             const energy = parseFloat(document.getElementById("energy").value);
             if (energy > 0) {
-                const energyeV = energy * 100
+                const energyeV = energy * 1000
                 // Speed of light (approximately 299,792,458 meters per second)
                 const speedOfLight = 299792458;
                 const planckconst = 4.1357 * 1e-15; // eV-sec.
