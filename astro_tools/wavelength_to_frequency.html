@@ -56,7 +56,7 @@
                 const wavelengthAngstrom = wavelength * 1e10
                 const energy = frequency * planckconst;
                 const energyKeV = energy/1000;
-                document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toFixed(4) + " Angstrom,  Energy = " + energyKeV.toFixed(4) + " KeV";
+                document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toExponential(4) + " Angstrom,  Energy = " + energyKeV.toExponential(4) + " KeV";
             
             } else {
                 document.getElementById("convertedValue").textContent = "Invalid frequency";
