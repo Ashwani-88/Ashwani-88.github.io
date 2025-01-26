@@ -57,7 +57,7 @@
                 const milliseconds = (julianDate - 2440587.5) * (24 * 60 * 60 * 1000);
                 const calendarDate = new Date(milliseconds);
                 const formattedDate = calendarDate.toISOString().split('T')[0];
-                document.getElementById("convertedValue").innerHTML = `Calendar Date (YYYY-MM-DD): ${formattedDate}`;
+                document.getElementById("convertedValue").innerHTML = `Calendar Date (YYYY-MM-DD): ${formattedDate} <br>MJD: ${julianDate - 2400000.5}`;
             } else {
                 document.getElementById("convertedValue").innerHTML = "Invalid Julian Date";
             }
@@ -68,7 +68,10 @@
 
             if (!isNaN(MJD_val)) {
                 const JD_val = 2400000.5 + MJD_val;
-                document.getElementById("convertedValue").innerHTML = `JD: ${JD_val}`;
+                const milliseconds = (JD_val - 2440587.5) * (24 * 60 * 60 * 1000);
+                const calendarDate = new Date(milliseconds);
+                const formattedDate = calendarDate.toISOString().split('T')[0];
+                document.getElementById("convertedValue").innerHTML = `JD: ${JD_val}<br> Calendar Date (YYYY-MM-DD): ${formattedDate}`;
             } else {
                 document.getElementById("convertedValue").innerHTML = "Invalid MJD";
             }
