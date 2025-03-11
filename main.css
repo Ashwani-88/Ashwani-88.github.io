@@ -335,3 +335,52 @@ footer {
   padding-top: 10px;
   margin-bottom: 0;
 }
+
+/* --------Academics Section --------------- */
+#academics .contents {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#academics .col {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#academics h5 {
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#academics p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#academics .timeline {
+  list-style: none;
+  padding: 0;
+}
+
+#academics .timeline li {
+  margin-bottom: 20px;
+}
+
+/* Mobile-Friendly Layout */
+@media (max-width: 768px) {
+  #academics .contents {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #academics .col {
+    width: 90%;
+  }
+}
