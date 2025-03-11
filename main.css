@@ -105,6 +105,31 @@ nav ul a:hover {
   header {
     background-color: black;
   }
+
+  #academics .heading {
+    font-size: 2em;
+  }
+
+  #home .heading {
+    font-size: 2em;
+  }
+  #about .heading {
+    font-size: 2em;
+  }
+
+  #skills .heading {
+    font-size: 2em;
+  }
+  #publications .heading {
+    font-size: 2em;
+  }
+  #contact .heading {
+    font-size: 2em;
+  }
+
+  #seminar .heading {
+    font-size: 2em;
+  }
 }
 
 .text-center {
