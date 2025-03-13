@@ -72,7 +72,7 @@ nav ul a:hover {
   transition: all 0.3s ease-in-out;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
   label.logo {
     margin-left: 10px;
   }
@@ -129,6 +129,17 @@ nav ul a:hover {
 
   #seminar .heading {
     font-size: 2em;
+  }
+
+  #academics .contents {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #academics .col {
+    width: 60%;
+    margin: auto;
+    padding: auto;
   }
 }
 
@@ -396,16 +407,4 @@ footer {
 
 #academics .timeline li {
   margin-bottom: 20px;
-}
-
-/* Mobile-Friendly Layout */
-@media (max-width: 768px) {
-  #academics .contents {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #academics .col {
-    width: 90%;
-  }
 }
