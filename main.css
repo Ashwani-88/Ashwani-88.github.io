@@ -137,9 +137,10 @@ nav ul a:hover {
   }
 
   #academics .col {
-    width: 60%;
+    width: 50%;
     margin: auto;
     padding: auto;
+    font-size: 1em;
   }
 }
 
