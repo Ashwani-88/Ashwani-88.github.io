@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elliptical Orbit Animation</title>
+    <style>
+      /* Centering the Orbit Container */
+      .orbit-container {
+        position: relative;
+        width: 300px;
+        height: 200px; /* Elliptical shape */
+        margin: 100px auto;
+        border: 2px dashed rgba(255, 255, 255, 0.5); /* Dashed orbit guide */
+        border-radius: 50%;
+      }
+
+      /* Central Image (Static) */
+      .central-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 80px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Orbiting Image */
+      .orbiting-image {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        left: 50%;
+        transform-origin: center;
+        animation: ellipticalOrbit 5s linear infinite;
+      }
+
+      /* Elliptical Orbit Animation */
+      @keyframes ellipticalOrbit {
+        0% {
+          transform: translate(-120px, 0px) rotate(0deg);
+        }
+        25% {
+          transform: translate(-90px, 60px) rotate(90deg);
+        }
+        50% {
+          transform: translate(0px, 80px) rotate(180deg);
+        }
+        75% {
+          transform: translate(90px, 60px) rotate(270deg);
+        }
+        100% {
+          transform: translate(120px, 0px) rotate(360deg);
+        }
+      }
+
+      /* Background for Better Visibility */
+      body {
+        background: #222;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="orbit-container">
+      <!-- Central Image (Planet, Star, etc.) -->
+      <img src="pic.jpg" alt="Central Image" class="central-image" />
+
+      <!-- Orbiting Satellite -->
+      <img src="JWST.png" alt="Orbiting Image" class="orbiting-image" />
+    </div>
+  </body>
+</html>

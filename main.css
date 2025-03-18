@@ -152,50 +152,68 @@ nav ul a:hover {
   display: flex;
   height: 100vh;
   width: 100%;
-  background: url("pic1.webp");
-  background-position: center;
-  background-size: cover;
+  background: url("pic1.webp") center/cover no-repeat;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
-.main-container {
+/* Container for Profile and Orbit */
+#home .orbit-container {
   text-align: center;
   padding: 5px;
-  margin-top: 30px;
+  margin-top: auto;
 }
 
-.main-container img {
-  border: 1px;
-  border-radius: 50%;
+/* Profile Picture */
+#home .profile-pic {
   height: 50vh;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.main-container .btn {
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-size: 16px;
-  margin-top: 5px;
-  font-family: "Montserrat Alternates", sans-serif;
-  font-weight: bold;
-  background-color: white;
+
+/* Orbiting Image */
+.orbit {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: rotate 10s linear infinite;
 }
-.main-container .btn:hover {
-  color: blue;
+
+.orbiting-image {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+
+  transform-origin: 200px 200px; /* Orbit center */
 }
-.main-container h1 {
-  margin: 5px;
-  color: white;
-  font-family: "Prompt", sans-serif;
-  font-weight: bold;
-  font-size: 40px;
+
+/* Orbit Rotation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
-.main-container p {
-  margin: 5px;
-  color: white;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
+
+/* Keep Orbiting Image Upright */
+@keyframes orbiting {
+  from {
+    transform: rotate(0deg) translateX(120px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(120px) rotate(-360deg);
+  }
 }
+
 .container-box {
   display: flexbox;
   margin: 50px 50px;
