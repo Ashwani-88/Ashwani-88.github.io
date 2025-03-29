@@ -158,7 +158,7 @@ nav ul a:hover {
   text-align: center;
 }
 
-/* Container for Profile and Orbit */
+/* Container for orbit and profile pic */
 #home .main-container {
   display: flex;
   width: 100%;
