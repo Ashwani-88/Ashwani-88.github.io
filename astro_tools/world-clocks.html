@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>World Clocks — Flip Style</title>
+    <style>
+      body {
+        font-family: "Courier New", monospace;
+        background: #111;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+      }
+
+      .clocks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      /* Responsive clocks */
+      .clock {
+        background: #222;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        flex: 1 1 calc(33% - 40px); /* 3 per row default */
+        max-width: 300px;
+        min-width: 280px;
+      }
+
+      /* 2 clocks per row for medium screens */
+      @media (max-width: 899px) {
+        .clock {
+          flex: 1 1 calc(50% - 20px);
+          max-width: 45%;
+        }
+      }
+
+      /* 1 clock per row for small screens */
+      @media (max-width: 599px) {
+        .clock {
+          flex: 1 1 100%;
+          max-width: 100%;
+        }
+      }
+
+      .city {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .time {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+
+      /* Larger digits with responsive scaling */
+      .digit {
+        position: relative;
+        width: clamp(40px, 8vw, 60px); /* scales with viewport width */
+        height: clamp(60px, 12vw, 90px);
+        background: #000;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.8);
+        font-size: clamp(35px, 7vw, 60px); /* font scales with screen */
+        color: #0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        perspective: 200px;
+      }
+
+      .digit .static {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backface-visibility: hidden;
+      }
+
+      /* flip panel animation */
+      .flip-panel {
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        left: 0;
+        overflow: hidden;
+        backface-visibility: hidden;
+        background: #000;
+        color: #0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .flip-panel.top {
+        top: 0;
+        border-bottom: 1px solid #111;
+        transform-origin: bottom;
+      }
+
+      .flip-panel.bottom {
+        bottom: 0;
+        border-top: 1px solid #111;
+        transform-origin: top;
+      }
+
+      .flip-animate-top {
+        animation: flipTop 0.5s forwards;
+      }
+
+      .flip-animate-bottom {
+        animation: flipBottom 0.5s forwards;
+      }
+
+      @keyframes flipTop {
+        0% {
+          transform: rotateX(0deg);
+        }
+        100% {
+          transform: rotateX(-90deg);
+        }
+      }
+
+      @keyframes flipBottom {
+        0% {
+          transform: rotateX(90deg);
+        }
+        100% {
+          transform: rotateX(0deg);
+        }
+      }
+
+      .date {
+        margin-top: 8px;
+        font-size: 16px;
+        color: #ccc;
+      }
+
+      select {
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>World Clocks</h1>
+    <div class="clocks">
+      <div
+        class="clock"
+        data-tz="America/Denver"
+        data-label="Salt Lake City"
+      ></div>
+      <div class="clock" data-tz="Europe/Warsaw" data-label="Warsaw"></div>
+      <div class="clock" data-tz="Europe/Paris" data-label="Paris"></div>
+      <div class="clock" data-tz="Asia/Kolkata" data-label="India (IST)"></div>
+      <div class="clock" data-tz="America/New_York" data-label="New York"></div>
+      <div class="clock custom-clock"></div>
+    </div>
+
+    <script>
+      const timeZones = [
+        { label: "UTC", tz: "UTC" },
+        { label: "London", tz: "Europe/London" },
+        { label: "Tokyo", tz: "Asia/Tokyo" },
+        { label: "Sydney", tz: "Australia/Sydney" },
+        { label: "Los Angeles", tz: "America/Los_Angeles" },
+        { label: "Chicago", tz: "America/Chicago" },
+        { label: "Toronto", tz: "America/Toronto" },
+      ];
+
+      function buildClock(clockEl, tz, label, isCustom = false) {
+        clockEl.innerHTML = `
+        <div class="city">${label}</div>
+        <div class="time"></div>
+        <div class="date"></div>
+        ${
+          isCustom
+            ? `
+          <select class="city-select">
+            ${timeZones
+              .map((t) => `<option value="${t.tz}">${t.label}</option>`)
+              .join("")}
+          </select>
+        `
+            : ""
+        }
+      `;
+
+        if (isCustom) {
+          const select = clockEl.querySelector(".city-select");
+          const savedTz = localStorage.getItem("customTz") || "UTC";
+          select.value = savedTz;
+          tz = savedTz;
+          select.addEventListener("change", () => {
+            localStorage.setItem("customTz", select.value);
+            clockEl.setAttribute("data-tz", select.value);
+            clockEl.querySelector(".city").innerText =
+              timeZones.find((t) => t.tz === select.value)?.label ||
+              "Custom City";
+          });
+        }
+
+        const timeContainer = clockEl.querySelector(".time");
+        // build HH:MM:SS static digits
+        for (let i = 0; i < 8; i++) {
+          if (i === 2 || i === 5) {
+            const colon = document.createElement("div");
+            colon.className = "digit";
+            colon.innerHTML = `<div class="static">:</div>`;
+            timeContainer.appendChild(colon);
+          } else {
+            const digit = document.createElement("div");
+            digit.className = "digit";
+            digit.innerHTML = `<div class="static">0</div>`;
+            timeContainer.appendChild(digit);
+          }
+        }
+      }
+
+      function updateClock(clockEl) {
+        const tz = clockEl.getAttribute("data-tz");
+        const now = new Date();
+        const options = { hour12: false, timeZone: tz };
+        const parts = new Intl.DateTimeFormat("en-GB", {
+          ...options,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+          .format(now)
+          .split(":");
+
+        const timeStr = parts.join(":");
+        const digits = timeStr.replace(/:/g, "");
+        const digitEls = clockEl.querySelectorAll(".digit");
+
+        let di = 0;
+        for (let i = 0; i < digitEls.length; i++) {
+          if (digitEls[i].innerText === ":") continue;
+          const digitEl = digitEls[i];
+          const staticEl = digitEl.querySelector(".static");
+          const oldVal = staticEl.innerText;
+          const newVal = digits[di++];
+          if (oldVal !== newVal) {
+            animateDigit(digitEl, oldVal, newVal);
+          }
+        }
+
+        // date string
+        clockEl.querySelector(".date").innerText =
+          new Intl.DateTimeFormat("en-GB", {
+            timeZone: tz,
+            weekday: "short",
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }).format(now) +
+          "\n" +
+          new Intl.DateTimeFormat("en-GB", {
+            timeZone: tz,
+            timeZoneName: "short",
+          })
+            .formatToParts(now)
+            .find((p) => p.type === "timeZoneName").value;
+      }
+
+      function animateDigit(digitEl, oldVal, newVal) {
+        const staticEl = digitEl.querySelector(".static");
+        // top flip
+        const top = document.createElement("div");
+        top.className = "flip-panel top flip-animate-top";
+        top.innerText = oldVal;
+        // bottom flip
+        const bottom = document.createElement("div");
+        bottom.className = "flip-panel bottom flip-animate-bottom";
+        bottom.innerText = newVal;
+
+        digitEl.appendChild(top);
+        digitEl.appendChild(bottom);
+
+        top.addEventListener("animationend", () => top.remove());
+        bottom.addEventListener("animationend", () => {
+          bottom.remove();
+          staticEl.innerText = newVal;
+        });
+      }
+
+      // build clocks
+      document.querySelectorAll(".clock").forEach((el) => {
+        const tz = el.dataset.tz || "UTC";
+        const label = el.dataset.label || "Custom City";
+        buildClock(el, tz, label, el.classList.contains("custom-clock"));
+      });
+
+      setInterval(() => {
+        document.querySelectorAll(".clock").forEach(updateClock);
+      }, 1000);
+    </script>
+  </body>
+</html>
