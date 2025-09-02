@@ -1,0 +1,345 @@
+[
+  {
+    "name": "Keck Observatory",
+    "lat": 19.8261,
+    "lon": -155.4744,
+    "site": "Mauna Kea, Hawaii"
+  },
+  {
+    "name": "Subaru Telescope",
+    "lat": 19.825,
+    "lon": -155.476,
+    "site": "Mauna Kea, Hawaii"
+  },
+  {
+    "name": "Very Large Telescope (VLT)",
+    "lat": -24.627,
+    "lon": -70.404,
+    "site": "Paranal, Chile"
+  },
+  {
+    "name": "Gemini North",
+    "lat": 19.8239,
+    "lon": -155.4691,
+    "site": "Mauna Kea, Hawaii"
+  },
+  {
+    "name": "Gemini South",
+    "lat": -30.2407,
+    "lon": -70.7366,
+    "site": "Cerro Pachón, Chile"
+  },
+  {
+    "name": "La Silla Observatory",
+    "lat": -29.256,
+    "lon": -70.734,
+    "site": "La Silla, Chile"
+  },
+  {
+    "name": "Atacama Large Millimeter Array (ALMA)",
+    "lat": -23.029,
+    "lon": -67.755,
+    "site": "Chajnantor Plateau, Chile"
+  },
+  {
+    "name": "Gran Telescopio Canarias (GTC)",
+    "lat": 28.7624,
+    "lon": -17.885,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "Nordic Optical Telescope",
+    "lat": 28.762,
+    "lon": -17.892,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "William Herschel Telescope",
+    "lat": 28.7619,
+    "lon": -17.8816,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "Liverpool Telescope",
+    "lat": 28.762,
+    "lon": -17.881,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "Isaac Newton Telescope",
+    "lat": 28.762,
+    "lon": -17.878,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "Southern African Large Telescope (SALT)",
+    "lat": -32.3794,
+    "lon": 20.8117,
+    "site": "Sutherland, South Africa"
+  },
+  {
+    "name": "Anglo-Australian Telescope (AAT)",
+    "lat": -31.273,
+    "lon": 149.07,
+    "site": "Siding Spring, Australia"
+  },
+  {
+    "name": "SkyMapper Telescope",
+    "lat": -31.273,
+    "lon": 149.07,
+    "site": "Siding Spring, Australia"
+  },
+  {
+    "name": "Parkes Radio Telescope",
+    "lat": -32.9984,
+    "lon": 148.2637,
+    "site": "Parkes, Australia"
+  },
+  {
+    "name": "Australia Telescope Compact Array (ATCA)",
+    "lat": -30.3128,
+    "lon": 149.5502,
+    "site": "Narrabri, Australia"
+  },
+  {
+    "name": "Mount Stromlo Observatory",
+    "lat": -35.316,
+    "lon": 149.009,
+    "site": "Canberra, Australia"
+  },
+  {
+    "name": "Mt. Wilson Observatory",
+    "lat": 34.224,
+    "lon": -118.057,
+    "site": "California, USA"
+  },
+  {
+    "name": "Palomar Observatory",
+    "lat": 33.356,
+    "lon": -116.865,
+    "site": "California, USA"
+  },
+  {
+    "name": "Lick Observatory",
+    "lat": 37.342,
+    "lon": -121.642,
+    "site": "California, USA"
+  },
+  {
+    "name": "Kitt Peak National Observatory (KPNO)",
+    "lat": 31.958,
+    "lon": -111.598,
+    "site": "Arizona, USA"
+  },
+  {
+    "name": "Lowell Observatory",
+    "lat": 35.096,
+    "lon": -111.536,
+    "site": "Flagstaff, Arizona, USA"
+  },
+  {
+    "name": "Apache Point Observatory",
+    "lat": 32.78,
+    "lon": -105.82,
+    "site": "New Mexico, USA"
+  },
+  {
+    "name": "McDonald Observatory",
+    "lat": 30.671,
+    "lon": -104.022,
+    "site": "Texas, USA"
+  },
+  {
+    "name": "Very Large Array (VLA)",
+    "lat": 34.078,
+    "lon": -107.618,
+    "site": "New Mexico, USA"
+  },
+  {
+    "name": "Owens Valley Radio Observatory",
+    "lat": 37.233,
+    "lon": -118.281,
+    "site": "California, USA"
+  },
+  {
+    "name": "Whipple Observatory",
+    "lat": 31.68,
+    "lon": -110.879,
+    "site": "Arizona, USA"
+  },
+  {
+    "name": "VERITAS (Very Energetic Radiation Imaging Telescope Array System)",
+    "lat": 31.675,
+    "lon": -110.952,
+    "site": "Arizona, USA"
+  },
+  {
+    "name": "Green Bank Telescope",
+    "lat": 38.433,
+    "lon": -79.8398,
+    "site": "West Virginia, USA"
+  },
+  {
+    "name": "Arecibo Observatory (collapsed 2020)",
+    "lat": 18.344,
+    "lon": -66.752,
+    "site": "Puerto Rico"
+  },
+  {
+    "name": "Roque de los Muchachos Observatory",
+    "lat": 28.761,
+    "lon": -17.889,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "Calar Alto Observatory",
+    "lat": 37.223,
+    "lon": -2.546,
+    "site": "Almería, Spain"
+  },
+  {
+    "name": "Pic du Midi Observatory",
+    "lat": 42.936,
+    "lon": 0.142,
+    "site": "Pyrenees, France"
+  },
+  {
+    "name": "Haute-Provence Observatory",
+    "lat": 43.931,
+    "lon": 5.713,
+    "site": "Provence, France"
+  },
+  {
+    "name": "Asiago Observatory",
+    "lat": 45.843,
+    "lon": 11.568,
+    "site": "Italy"
+  },
+  { "name": "Loiano Observatory", "lat": 44.25, "lon": 11.35, "site": "Italy" },
+  {
+    "name": "TNG (Telescopio Nazionale Galileo)",
+    "lat": 28.762,
+    "lon": -17.879,
+    "site": "La Palma, Canary Islands"
+  },
+  {
+    "name": "ESO 3.6m Telescope",
+    "lat": -29.256,
+    "lon": -70.734,
+    "site": "La Silla, Chile"
+  },
+  {
+    "name": "New Technology Telescope (NTT)",
+    "lat": -29.256,
+    "lon": -70.734,
+    "site": "La Silla, Chile"
+  },
+  {
+    "name": "Magellan Telescopes",
+    "lat": -29.015,
+    "lon": -70.692,
+    "site": "Las Campanas, Chile"
+  },
+  {
+    "name": "Rubin Observatory (LSST)",
+    "lat": -30.2446,
+    "lon": -70.7494,
+    "site": "Cerro Pachón, Chile"
+  },
+  {
+    "name": "Cerro Tololo Inter-American Observatory (CTIO)",
+    "lat": -30.165,
+    "lon": -70.815,
+    "site": "Chile"
+  },
+  {
+    "name": "SOAR Telescope",
+    "lat": -30.2407,
+    "lon": -70.7366,
+    "site": "Cerro Pachón, Chile"
+  },
+  {
+    "name": "FAST Telescope",
+    "lat": 25.652,
+    "lon": 106.856,
+    "site": "Guizhou, China"
+  },
+  {
+    "name": "Purple Mountain Observatory",
+    "lat": 32.066,
+    "lon": 118.82,
+    "site": "Nanjing, China"
+  },
+  {
+    "name": "Urumqi Observatory",
+    "lat": 43.47,
+    "lon": 87.18,
+    "site": "Xinjiang, China"
+  },
+  {
+    "name": "Tokyo Mitaka Observatory",
+    "lat": 35.675,
+    "lon": 139.542,
+    "site": "Tokyo, Japan"
+  },
+  {
+    "name": "Okayama Astrophysical Observatory",
+    "lat": 34.58,
+    "lon": 133.59,
+    "site": "Okayama, Japan"
+  },
+  {
+    "name": "Subaru Telescope (duplicate for Japan HQ)",
+    "lat": 35.676,
+    "lon": 139.65,
+    "site": "Tokyo, Japan"
+  },
+  {
+    "name": "Indian Astronomical Observatory (Hanle)",
+    "lat": 32.779,
+    "lon": 78.964,
+    "site": "Ladakh, India"
+  },
+  {
+    "name": "Vainu Bappu Observatory",
+    "lat": 12.58,
+    "lon": 78.82,
+    "site": "Kavalur, India"
+  },
+  {
+    "name": "Giant Metrewave Radio Telescope (GMRT)",
+    "lat": 19.096,
+    "lon": 74.049,
+    "site": "Pune, India"
+  },
+  {
+    "name": "IUCAA Girawali Observatory",
+    "lat": 19.073,
+    "lon": 73.688,
+    "site": "Pune, India"
+  },
+  {
+    "name": "Sayan Observatory",
+    "lat": 51.74,
+    "lon": 100.93,
+    "site": "Russia"
+  },
+  {
+    "name": "Special Astrophysical Observatory (BTA 6m)",
+    "lat": 43.65,
+    "lon": 41.43,
+    "site": "Caucasus, Russia"
+  },
+  {
+    "name": "Byurakan Observatory",
+    "lat": 40.34,
+    "lon": 44.28,
+    "site": "Armenia"
+  },
+  {
+    "name": "Zelenchukskaya RATAN-600",
+    "lat": 43.653,
+    "lon": 41.575,
+    "site": "Russia"
+  }
+]

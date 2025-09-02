@@ -176,8 +176,8 @@ nav ul a:hover {
 /* Profile Picture */
 #home .orbit-container img {
   margin-top: 10px;
-  width: 45vw;
-  max-width: 45vh;
+  width: 50vw;
+  max-width: 55vh;
   border-radius: 50%;
   border: 3px solid white;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);

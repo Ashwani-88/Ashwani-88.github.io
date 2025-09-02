@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Observatory Clock</title>
+    <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.0/dist/astronomy.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        background: #f0f2f5;
+      }
+      .container {
+        display: flex;
+        gap: 50px;
+      }
+      .clock-container,
+      .observatory-container {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .clock {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        border: 6px solid #333;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        background: radial-gradient(circle at center, #fff 90%, #ddd 100%);
+      }
+      .marker,
+      .minute-tick,
+      .digit {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform-origin: center center;
+      }
+      .marker {
+        width: 4px;
+        height: 15px;
+        background: #333;
+      }
+      .minute-tick {
+        width: 2px;
+        height: 8px;
+        background: #666;
+      }
+      .digit {
+        font-weight: bold;
+        font-size: 16px;
+        transform-origin: center center;
+      }
+      .hand {
+        position: absolute;
+        width: 50%;
+        top: 50%;
+        left: 50%;
+        transform-origin: 0% 50%;
+        border-radius: 2px;
+      }
+      .hand.hour {
+        height: 6px;
+        background: #333;
+      }
+      .hand.minute {
+        height: 4px;
+        background: #555;
+      }
+      .hand.second {
+        height: 2px;
+        background: red;
+      }
+      .center-dot {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #333;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+      }
+      input,
+      select,
+      button {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0;
+      }
+      button {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="clock-container">
+        <div class="clock" id="clock">
+          <div class="center-dot"></div>
+        </div>
+        <div id="date" style="text-align: center; font-weight: bold"></div>
+        <div id="timezone" style="text-align: center; color: #666"></div>
+      </div>
+
+      <div class="observatory-container">
+        <h2>Observatory Time Tools</h2>
+        <select id="observatory-select">
+          <option value="">-- Select Observatory --</option>
+        </select>
+        <p>Or enter custom coordinates:</p>
+        <input type="number" id="lat" placeholder="Latitude" />
+        <input type="number" id="lon" placeholder="Longitude" />
+        <button id="submitBtn">Submit</button>
+        <div id="results" style="margin-top: 10px"></div>
+      </div>
+    </div>
+
+    <script>
+      // Sample observatories with timezone
+      let observatories = {
+        obs0: {
+          name: "Keck Observatory",
+          lat: 19.8261,
+          lon: -155.4744,
+          site: "Mauna Kea, Hawaii",
+          timezone: "Pacific/Honolulu",
+        },
+        obs1: {
+          name: "Very Large Telescope (VLT)",
+          lat: -24.627,
+          lon: -70.404,
+          site: "Paranal, Chile",
+          timezone: "America/Santiago",
+        },
+        obs2: {
+          name: "Roque de los Muchachos Observatory",
+          lat: 28.761,
+          lon: -17.889,
+          site: "La Palma, Canary Islands",
+          timezone: "Atlantic/Canary",
+        },
+      };
+
+      // Populate dropdown
+      const select = document.getElementById("observatory-select");
+      Object.keys(observatories).forEach((id) => {
+        const obs = observatories[id];
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = `${obs.name} (${obs.site})`;
+        select.appendChild(option);
+      });
+
+      // Clock setup
+      const clock = document.getElementById("clock");
+      // Hour markers
+      for (let i = 1; i <= 12; i++) {
+        const marker = document.createElement("div");
+        marker.className = "marker";
+        const angle = (i * 30 * Math.PI) / 180;
+        marker.style.transform = `rotate(${
+          i * 30
+        }deg) translateX(-50%) translateY(-110px)`;
+        clock.appendChild(marker);
+
+        const digit = document.createElement("div");
+        digit.className = "digit";
+        digit.textContent = i;
+        const radius = 100;
+        const x = Math.sin(angle) * radius;
+        const y = -Math.cos(angle) * radius;
+        digit.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+        clock.appendChild(digit);
+      }
+
+      // Minute ticks
+      for (let i = 0; i < 60; i++) {
+        if (i % 5 === 0) continue;
+        const tick = document.createElement("div");
+        tick.className = "minute-tick";
+        tick.style.transform = `rotate(${
+          6 * i
+        }deg) translateX(-50%) translateY(-100px)`;
+        clock.appendChild(tick);
+      }
+
+      // Hands
+      const hourHand = document.createElement("div");
+      hourHand.className = "hand hour";
+      clock.appendChild(hourHand);
+      const minuteHand = document.createElement("div");
+      minuteHand.className = "hand minute";
+      clock.appendChild(minuteHand);
+      const secondHand = document.createElement("div");
+      secondHand.className = "hand second";
+      clock.appendChild(secondHand);
+
+      // Clock animation
+      function updateClock() {
+        const now = new Date();
+        const ms = now.getMilliseconds();
+        const second = now.getSeconds() + ms / 1000;
+        const minute = now.getMinutes() + second / 60;
+        const hour = (now.getHours() % 12) + minute / 60;
+        hourHand.style.transform = `rotate(${hour * 30}deg) translateX(-50%)`;
+        minuteHand.style.transform = `rotate(${
+          minute * 6
+        }deg) translateX(-50%)`;
+        secondHand.style.transform = `rotate(${
+          second * 6
+        }deg) translateX(-50%)`;
+
+        document.getElementById("date").textContent = now.toLocaleDateString(
+          undefined,
+          { weekday: "long", year: "numeric", month: "long", day: "numeric" }
+        );
+        document.getElementById("timezone").textContent =
+          Intl.DateTimeFormat().resolvedOptions().timeZone;
+        requestAnimationFrame(updateClock);
+      }
+      requestAnimationFrame(updateClock);
+
+      // Observatory calculations
+      function updateObservatory() {
+        const obsId = document.getElementById("observatory-select").value;
+        let lat, lon, tz;
+        if (obsId) {
+          lat = observatories[obsId].lat;
+          lon = observatories[obsId].lon;
+          tz = observatories[obsId].timezone;
+        } else {
+          lat = parseFloat(document.getElementById("lat").value);
+          lon = parseFloat(document.getElementById("lon").value);
+          tz = "UTC";
+          if (isNaN(lat) || isNaN(lon)) return;
+        }
+
+        const now = new Date();
+        const astroTime = Astronomy.MakeTime(now);
+        const lst = Astronomy.SiderealTime(astroTime, lon);
+        const ha = (lst + 24) % 24;
+        let localTime;
+        try {
+          localTime = now.toLocaleTimeString("en-US", { timeZone: tz });
+        } catch (e) {
+          localTime = now.toUTCString();
+        }
+
+        document.getElementById("results").innerHTML = `
+    <p><strong>Local Time:</strong> ${localTime}</p>
+    <p><strong>Local Sidereal Time:</strong> ${lst.toFixed(2)} h</p>
+    <p><strong>Hour Angle (RA=0h):</strong> ${ha.toFixed(2)} h</p>
+  `;
+      }
+
+      // Submit button
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", updateObservatory);
+    </script>
+  </body>
+</html>
