@@ -1,82 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RA and Dec Converter</title>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RA &amp; Dec Converter | Astro Tools</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="tools_style.css">
+  <style>
+    .triple-row { display:grid; grid-template-columns:repeat(3,1fr); gap:.7rem; margin-bottom:.8rem; }
+    @media(max-width:600px){ .triple-row { grid-template-columns:1fr 1fr 1fr; } }
+  </style>
+</head>
+<body>
+<nav id="main-nav">
+  <a class="nav-logo" href="../index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="tools_home.html" class="active">Tools</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-    <link rel="stylesheet" href="tools_style.css" />
-    <style>
-      input {
-        width: 70px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>RA and Dec Converter</h1>
-      <h2>From Sexigesimal coordinates to degrees</h2>
-      <div>
-        <label>Enter RA in hr:mm:ss:</label>
-        <label for="ra-hours">Hours:</label>
-        <input type="number" id="ra-hours" step="1" value="0" />
-        <label for="ra-minutes">Minutes:</label>
-        <input type="number" id="ra-minutes" step="1" value="0" />
-        <label for="ra-seconds">Seconds:</label>
-        <input type="number" id="ra-seconds" step="0.1" value="0.0" />
-      </div>
-      <br />
-      <div>
-        <label>Enter DEC in deg:mm:ss:</label>
-        <label for="dec-degrees">Degrees:</label>
-        <input type="number" id="dec-degrees" step="1" value="0" />
-        <label for="dec-minutes">Minutes:</label>
-        <input type="number" id="dec-minutes" step="1" value="0" />
-        <label for="dec-seconds">Seconds:</label>
-        <input type="number" id="dec-seconds" step="0.1" value="0.0" />
-      </div>
+<div class="tool-page">
+  <a href="tools_home.html" class="back-link">← All Tools</a>
+  <p class="section-label" style="margin-bottom:.5rem">Astro Tools</p>
+  <h1>RA &amp; Dec <span>Converter</span></h1>
+  <p class="subtitle">Sexagesimal coordinates (hh:mm:ss / dd:mm:ss) → Decimal degrees</p>
 
-      <button onclick="convert()">Convert</button>
-      <br />
-
-      <h2>Converted Values:</h2>
-      <p id="convertedValues"></p>
+  <div class="converter-block">
+    <h2>📐 Sexagesimal → Degrees</h2>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);margin-bottom:1.2rem">RA (h m s)</p>
+    <div class="triple-row">
+      <div class="input-group"><label>Hours</label><input type="number" id="rah" step="1" value="0"></div>
+      <div class="input-group"><label>Minutes</label><input type="number" id="ram" step="1" value="0"></div>
+      <div class="input-group"><label>Seconds</label><input type="number" id="ras" step="0.001" value="0"></div>
     </div>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);margin-bottom:1.2rem">Dec (d m s)</p>
+    <div class="triple-row">
+      <div class="input-group"><label>Degrees</label><input type="number" id="decd" step="1" value="0"></div>
+      <div class="input-group"><label>Arcmin</label><input type="number" id="decm" step="1" value="0"></div>
+      <div class="input-group"><label>Arcsec</label><input type="number" id="decs" step="0.001" value="0"></div>
+    </div>
+    <button class="convert-btn" onclick="convert()">Convert →</button>
+    <div class="result-box" id="res"><div class="result-label">Result</div><div id="resval"></div></div>
+  </div>
 
-    <script>
-      function convert() {
-        // Get RA values
-        const raHours = parseFloat(document.getElementById("ra-hours").value);
-        const raMinutes = parseFloat(
-          document.getElementById("ra-minutes").value
-        );
-        const raSeconds = parseFloat(
-          document.getElementById("ra-seconds").value
-        );
+  <div class="converter-block" style="background:transparent;border-color:rgba(79,195,247,0.08)">
+    <h2 style="color:var(--muted)">Also available</h2>
+    <a href="ra_dec_convert_2_hr.html" class="btn btn-outline" style="font-size:.82rem">Degrees → Sexagesimal ↗</a>
+  </div>
+</div>
 
-        // Convert RA from hms to degrees
-        const raInDegrees = raHours * 15 + raMinutes / 4 + raSeconds / 240;
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
 
-        // Get Dec values
-        const decDegrees = parseFloat(
-          document.getElementById("dec-degrees").value
-        );
-        const decMinutes = parseFloat(
-          document.getElementById("dec-minutes").value
-        );
-        const decSeconds = parseFloat(
-          document.getElementById("dec-seconds").value
-        );
-
-        let decInDegrees =
-          Math.abs(decDegrees) + decMinutes / 60 + decSeconds / 3600;
-        decInDegrees = decDegrees < 0 ? -decInDegrees : decInDegrees;
-
-        document.getElementById(
-          "convertedValues"
-        ).innerHTML = `RA: ${raInDegrees.toFixed(5)}° <br>   
-        Dec: ${decInDegrees.toFixed(5)}°`;
-      }
-    </script>
-  </body>
+<script>
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+  function showResult(id, html) { const b = document.getElementById(id); b.querySelector('div:last-child').innerHTML = html; b.classList.add('show'); }
+  function convert() {
+    const rah = parseFloat(document.getElementById('rah').value)||0;
+    const ram = parseFloat(document.getElementById('ram').value)||0;
+    const ras = parseFloat(document.getElementById('ras').value)||0;
+    const decd = parseFloat(document.getElementById('decd').value)||0;
+    const decm = parseFloat(document.getElementById('decm').value)||0;
+    const decs = parseFloat(document.getElementById('decs').value)||0;
+    const raDeg = rah * 15 + ram / 4 + ras / 240;
+    let decDeg = Math.abs(decd) + decm / 60 + decs / 3600;
+    if (decd < 0) decDeg = -decDeg;
+    showResult('res', `RA: <strong>${raDeg.toFixed(6)}°</strong><br>Dec: <strong>${decDeg.toFixed(6)}°</strong>`);
+  }
+</script>
+</body>
 </html>

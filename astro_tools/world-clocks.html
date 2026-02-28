@@ -1,204 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>World Clocks — Normal</title>
-    <style>
-      body {
-        font-family: "Courier New", monospace;
-        background: #111;
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-      }
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>World Clocks | Astro Tools</title>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .tool-page { max-width: 1100px; margin: 0 auto; padding: 7rem 1.5rem 4rem; position: relative; z-index: 1; }
+    .back-link { display:inline-flex; align-items:center; gap:.4rem; color:var(--muted); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:.75rem; letter-spacing:.05em; margin-bottom:2rem; transition:color .2s; }
+    .back-link:hover { color:var(--accent); }
+    .clocks-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.2rem; margin-top:1.5rem; }
+    .clock-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.6rem; text-align:center; transition:border-color .2s; }
+    .clock-card:hover { border-color:rgba(79,195,247,0.3); }
+    .clock-city { font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700; color:var(--accent); margin-bottom:1rem; letter-spacing:.02em; }
+    .clock-display { display:flex; justify-content:center; align-items:center; gap:3px; margin-bottom:.8rem; }
+    .digit { width:32px; height:48px; background:#000; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:1.8rem; font-weight:700; color:#0f0; display:flex; align-items:center; justify-content:center; box-shadow:inset 0 -2px 6px rgba(0,0,0,0.8); }
+    .digit.colon { background:transparent; color:var(--accent); font-size:1.6rem; width:16px; box-shadow:none; animation:colonBlink 1s step-end infinite; }
+    @keyframes colonBlink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .clock-date { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); line-height:1.6; }
+    .clock-tz { font-size:.65rem; color:rgba(79,195,247,0.6); margin-top:.3rem; }
+    .custom-select { background:var(--bg3); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:.72rem; padding:.4rem .6rem; margin-top:.8rem; width:100%; outline:none; cursor:pointer; }
+    .custom-select:focus { border-color:var(--accent); }
+    @media(max-width:600px){ .clocks-grid { grid-template-columns:1fr 1fr; } .digit { width:26px; height:40px; font-size:1.4rem; } }
+  </style>
+</head>
+<body>
+<nav id="main-nav">
+  <a class="nav-logo" href="../index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="tools_home.html" class="active">Tools</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-      h1 {
-        margin-bottom: 30px;
-      }
+<div class="tool-page">
+  <a href="tools_home.html" class="back-link">← All Tools</a>
+  <p class="section-label" style="margin-bottom:.5rem">Astro Tools</p>
+  <h1 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem">World <span style="color:var(--accent)">Clocks</span></h1>
+  <p style="color:var(--muted);font-size:.9rem;margin-bottom:.5rem;font-weight:300">Live clocks for key observatory timezones</p>
 
-      .clocks {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-      }
+  <div class="clocks-grid" id="clocks-grid">
+    <div class="clock-card" data-tz="America/Denver"    data-label="Salt Lake City"></div>
+    <div class="clock-card" data-tz="UTC"               data-label="UTC"></div>
+    <div class="clock-card" data-tz="Asia/Kolkata"      data-label="India (IST)"></div>
+    <div class="clock-card" data-tz="Europe/Warsaw"     data-label="Warsaw"></div>
+    <div class="clock-card" data-tz="Europe/Paris"      data-label="Paris"></div>
+    <div class="clock-card" data-tz="America/New_York"  data-label="New York"></div>
+    <div class="clock-card custom-clock"></div>
+  </div>
+</div>
 
-      .clock {
-        background: #222;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-        min-width: 280px;
-      }
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
 
-      .city {
-        font-weight: bold;
-        margin-bottom: 10px;
-        font-size: 18px;
-      }
+<script>
+  const TZ_OPTIONS = [
+    {label:'UTC',              tz:'UTC'},
+    {label:'London',           tz:'Europe/London'},
+    {label:'Tokyo',            tz:'Asia/Tokyo'},
+    {label:'Sydney',           tz:'Australia/Sydney'},
+    {label:'Los Angeles',      tz:'America/Los_Angeles'},
+    {label:'Chicago',          tz:'America/Chicago'},
+    {label:'Toronto',          tz:'America/Toronto'},
+    {label:'Beijing',          tz:'Asia/Shanghai'},
+    {label:'Moscow',           tz:'Europe/Moscow'},
+    {label:'Dubai',            tz:'Asia/Dubai'},
+    {label:'Santiago',         tz:'America/Santiago'},
+    {label:'La Silla (ESO)',   tz:'America/Santiago'},
+    {label:'Mauna Kea (Hawaii)',tz:'Pacific/Honolulu'},
+  ];
 
-      .time {
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-        margin-bottom: 10px;
-      }
-
-      .digit {
-        width: 40px;
-        height: 60px;
-        background: #000;
-        border-radius: 4px;
-        box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.8);
-        font-size: 40px;
-        color: #0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-      }
-
-      .date {
-        margin-top: 5px;
-        font-size: 14px;
-        color: #ccc;
-        white-space: pre-line;
-      }
-
-      select {
-        margin-top: 10px;
-        padding: 5px;
-        border-radius: 5px;
-        font-size: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>World Clocks</h1>
-    <div class="clocks">
-      <div
-        class="clock"
-        data-tz="America/Denver"
-        data-label="Salt Lake City"
-      ></div>
-      <div class="clock" data-tz="Europe/Warsaw" data-label="Warsaw"></div>
-      <div class="clock" data-tz="Europe/Paris" data-label="Paris"></div>
-      <div class="clock" data-tz="Asia/Kolkata" data-label="India (IST)"></div>
-      <div class="clock" data-tz="America/New_York" data-label="New York"></div>
-      <div class="clock custom-clock"></div>
-    </div>
-
-    <script>
-      const timeZones = [
-        { label: "UTC", tz: "UTC" },
-        { label: "London", tz: "Europe/London" },
-        { label: "Tokyo", tz: "Asia/Tokyo" },
-        { label: "Sydney", tz: "Australia/Sydney" },
-        { label: "Los Angeles", tz: "America/Los_Angeles" },
-        { label: "Chicago", tz: "America/Chicago" },
-        { label: "Toronto", tz: "America/Toronto" },
-      ];
-
-      function buildClock(clockEl, tz, label, isCustom = false) {
-        clockEl.innerHTML = `
-        <div class="city">${label}</div>
-        <div class="time"></div>
-        <div class="date"></div>
-        ${
-          isCustom
-            ? `
-          <select class="city-select">
-            ${timeZones
-              .map((t) => `<option value="${t.tz}">${t.label}</option>`)
-              .join("")}
-          </select>
-        `
-            : ""
-        }
-      `;
-
-        if (isCustom) {
-          const select = clockEl.querySelector(".city-select");
-          const savedTz = localStorage.getItem("customTz") || "UTC";
-          select.value = savedTz;
-          tz = savedTz;
-          select.addEventListener("change", () => {
-            localStorage.setItem("customTz", select.value);
-            clockEl.setAttribute("data-tz", select.value);
-            clockEl.querySelector(".city").innerText =
-              timeZones.find((t) => t.tz === select.value)?.label ||
-              "Custom City";
-          });
-        }
-
-        const timeContainer = clockEl.querySelector(".time");
-        // build HH:MM:SS static digits
-        for (let i = 0; i < 8; i++) {
-          if (i === 2 || i === 5) {
-            const colon = document.createElement("div");
-            colon.className = "digit";
-            colon.innerText = ":";
-            timeContainer.appendChild(colon);
-          } else {
-            const digit = document.createElement("div");
-            digit.className = "digit";
-            digit.innerText = "0";
-            timeContainer.appendChild(digit);
-          }
-        }
-      }
-
-      function updateClock(clockEl) {
-        const tz = clockEl.getAttribute("data-tz");
-        const now = new Date();
-        const options = { hour12: false, timeZone: tz };
-        const parts = new Intl.DateTimeFormat("en-GB", {
-          ...options,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-          .format(now)
-          .split(":");
-
-        const timeStr = parts.join(":");
-        const digits = timeStr.replace(/:/g, "");
-        const digitEls = clockEl.querySelectorAll(".digit");
-
-        let di = 0;
-        for (let i = 0; i < digitEls.length; i++) {
-          if (digitEls[i].innerText === ":") continue;
-          digitEls[i].innerText = digits[di++];
-        }
-
-        // date string
-        clockEl.querySelector(".date").innerText =
-          new Intl.DateTimeFormat("en-GB", {
-            timeZone: tz,
-            weekday: "short",
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          }).format(now) +
-          "\n" +
-          new Intl.DateTimeFormat("en-GB", {
-            timeZone: tz,
-            timeZoneName: "short",
-          })
-            .formatToParts(now)
-            .find((p) => p.type === "timeZoneName").value;
-      }
-
-      // build clocks
-      document.querySelectorAll(".clock").forEach((el) => {
-        const tz = el.dataset.tz || "UTC";
-        const label = el.dataset.label || "Custom City";
-        buildClock(el, tz, label, el.classList.contains("custom-clock"));
+  function buildClock(el, tz, label, isCustom=false) {
+    el.innerHTML = `
+      <div class="clock-city">${label}</div>
+      <div class="clock-display"></div>
+      <div class="clock-date"></div>
+      <div class="clock-tz"></div>
+      ${isCustom ? `<select class="custom-select">
+        ${TZ_OPTIONS.map(t=>`<option value="${t.tz}"${t.tz===tz?' selected':''}>${t.label}</option>`).join('')}
+      </select>` : ''}
+    `;
+    const disp = el.querySelector('.clock-display');
+    // Build HH:MM:SS digits
+    [0,1,':',2,3,':',4,5].forEach(v => {
+      const d = document.createElement('div');
+      if (v===':') { d.className='digit colon'; d.textContent=':'; }
+      else { d.className='digit'; d.textContent='0'; }
+      disp.appendChild(d);
+    });
+    if (isCustom) {
+      const sel = el.querySelector('.custom-select');
+      sel.addEventListener('change', () => {
+        el.setAttribute('data-tz', sel.value);
+        el.querySelector('.clock-city').textContent = TZ_OPTIONS.find(t=>t.tz===sel.value)?.label || 'Custom';
       });
+    }
+  }
 
-      setInterval(() => {
-        document.querySelectorAll(".clock").forEach(updateClock);
-      }, 1000);
-    </script>
-  </body>
+  function updateClock(el) {
+    const tz = el.getAttribute('data-tz') || 'UTC';
+    const now = new Date();
+    const parts = new Intl.DateTimeFormat('en-GB', {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:tz}).format(now).split(':');
+    const digits = parts.join('');
+    let di = 0;
+    el.querySelectorAll('.digit').forEach(d => {
+      if (d.classList.contains('colon')) return;
+      d.textContent = digits[di++] || '0';
+    });
+    el.querySelector('.clock-date').textContent = new Intl.DateTimeFormat('en-GB',{timeZone:tz,weekday:'short',day:'2-digit',month:'short',year:'numeric'}).format(now);
+    const tzName = new Intl.DateTimeFormat('en-GB',{timeZone:tz,timeZoneName:'short'}).formatToParts(now).find(p=>p.type==='timeZoneName')?.value||'';
+    el.querySelector('.clock-tz').textContent = tzName;
+  }
+
+  // Build all
+  document.querySelectorAll('.clock-card').forEach(el => {
+    const isCustom = el.classList.contains('custom-clock');
+    const tz = isCustom ? 'UTC' : (el.dataset.tz||'UTC');
+    const label = isCustom ? 'Custom' : (el.dataset.label||'Clock');
+    buildClock(el, tz, label, isCustom);
+  });
+
+  // Update immediately then every second
+  document.querySelectorAll('.clock-card').forEach(updateClock);
+  setInterval(() => document.querySelectorAll('.clock-card').forEach(updateClock), 1000);
+
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+</script>
+</body>
 </html>

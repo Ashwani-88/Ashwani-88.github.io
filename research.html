@@ -1,74 +1,267 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Research</title>
-        <link href="style_research.css" rel="stylesheet">
-        
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="This webpage is about the active galactic nuclei (AGN)">
-        <meta name="keywords" content="active galaxies, active galactic nuclei, AGN, Blazar, TeV blazar, Heasoft, optical data, NuSTAR">
-        <meta name="author" content="Ashwani Pandey">
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        
-        <!---------------- Fonts ----------------------------------------------->
-         <link href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Comfortaa:wght@600&family=Courgette&family=Niconne&family=Nova+Script&family=Sriracha&display=swap" rel="stylesheet"> 
-    </head>
-        
-  <body>
-       <header>
-        <div class="nav-bar">
-            <ul>
-               <li><a href="index.html">Home</a></li>
-               <li><a href="agn.html">AGN</a></li>
-               <li><a href="optical.html">Optical</a></li>
-               <li><a href="x-ray.html">X-ray</a></li>
-               <li><a href="papers.html">Papers</a></li>
-            </ul>    
-      </div>  
-    
-    </header>
- 
-      
-      
-<!-------------------------------------------- Navigation Bar --------------------------------------------------------------------->
-<div class="first_page" id="research_home">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Research | Ashwani Pandey</title>
+  <meta name="description" content="Research by Ashwani Pandey — AGN, blazars, relativistic jets, X-ray and gamma-ray astrophysics.">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .research-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+    .research-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.8rem; transition:border-color .2s,transform .2s; }
+    .research-card:hover { border-color:rgba(79,195,247,0.4); transform:translateY(-3px); }
+    .research-card-icon { font-size:2rem; margin-bottom:1rem; }
+    .research-card h3 { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:var(--accent); margin-bottom:.7rem; }
+    .research-card p { font-size:.88rem; color:#9aacba; line-height:1.8; }
+    .subpage-nav { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:2rem; }
+    .subpage-link { display:inline-flex; align-items:center; gap:.5rem; padding:.6rem 1.2rem; background:var(--bg2); border:1px solid var(--border); border-radius:8px; text-decoration:none; color:var(--muted); font-size:.82rem; font-family:'JetBrains Mono',monospace; letter-spacing:.04em; transition:all .2s; }
+    .subpage-link:hover { border-color:var(--accent); color:var(--accent); transform:translateX(3px); }
+    /* AGN content */
+    .content-body { font-size:.95rem; color:#b0bec8; line-height:1.9; }
+    .content-body p { margin-bottom:1.2rem; }
+    .content-body h3 { font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--accent); margin:2rem 0 .7rem; }
+    .content-body ul { margin-left:1.5rem; margin-bottom:1rem; }
+    .content-body ul li { margin-bottom:.5rem; }
+    .content-body sup { font-size:.7em; }
+    .content-body span { color:var(--accent); font-style:italic; }
+    .content-body figure { margin:2rem 0; text-align:center; }
+    .content-body figure img { max-width:100%; border-radius:8px; border:1px solid var(--border); }
+    .content-body figcaption { font-size:.8rem; color:var(--muted); margin-top:.7rem; font-style:italic; }
+    .content-body figcaption a { color:var(--accent); }
+    .refs-list { margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border); }
+    .refs-list h3 { font-family:'Syne',sans-serif; font-size:1rem; color:var(--muted); margin-bottom:1rem; }
+    .refs-list li { font-size:.82rem; color:var(--muted); margin-bottom:.4rem; list-style:disc; margin-left:1.2rem; }
+    /* Optical tables */
+    .obs-table-wrap { overflow-x:auto; margin:1.5rem 0; }
+    .obs-table { width:100%; border-collapse:collapse; font-size:.85rem; }
+    .obs-table th { background:rgba(79,195,247,0.1); color:var(--accent); font-family:'JetBrains Mono',monospace; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; padding:.7rem 1rem; text-align:left; border-bottom:1px solid var(--border); }
+    .obs-table td { padding:.6rem 1rem; border-bottom:1px solid rgba(255,255,255,0.04); color:#b0bec8; font-family:'JetBrains Mono',monospace; font-size:.82rem; }
+    .obs-table tr:hover td { background:rgba(79,195,247,0.03); }
+    .source-header { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:1rem 1.4rem; margin:2rem 0 .8rem; }
+    .source-header h4 { font-family:'Syne',sans-serif; font-size:1rem; color:var(--accent); margin-bottom:.3rem; }
+    .source-header p { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--muted); }
+    /* Tab nav */
+    .tab-nav { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:2rem; border-bottom:1px solid var(--border); padding-bottom:.5rem; }
+    .tab-btn { padding:.5rem 1.1rem; background:transparent; border:1px solid var(--border); border-radius:6px; color:var(--muted); font-size:.82rem; font-family:'JetBrains Mono',monospace; cursor:pointer; transition:all .2s; letter-spacing:.04em; }
+    .tab-btn:hover, .tab-btn.active { background:rgba(79,195,247,0.1); border-color:var(--accent); color:var(--accent); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    /* Coming soon */
+    .coming-soon { text-align:center; padding:4rem 2rem; }
+    .coming-soon .cs-icon { font-size:3rem; margin-bottom:1rem; }
+    .coming-soon p { color:var(--muted); font-size:.95rem; }
+    @media(max-width:900px){ .research-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<nav id="main-nav">
+  <a class="nav-logo" href="index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html" class="active">Research</a></li>
+    <li><a href="astro_tools/tools_home.html">Tools</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-<!------------------------------------------------------------------------------------------------------------------------------------->    
-    <div class="blazar_intro">
-        
-        <h1>Active Galactic Nuclei (AGN)</h1>
-        
-        <p>Active galactic nuclei (AGN) are highly energetic astrophysical objects that are powered by actively accreting supermassive black holes (SMBH; M<sub>BH</sub> ≥ 10<sup>6</sup>M<sub>Sun</sub>) at their centres, and produce unique observational features over the entire electromagnetic (EM) spectrum (<span>Rees 1984</span>). About 15% of AGN consist of two well-collimated jets of ultrarelativistic particles extending to kilo-parsec (kpc) or sometimes up to mega-parsec (Mpc) distances and are known as jetted-AGN (<span>Padovani et al. 2017</span>). The spectra of these jetted-AGN strongly depend on the viewing angles of their jets with respect to the observer’s line of sight and this difference forms the base for their classification. Blazars are the jetted-AGN aligned at very small (≤ 15-20<sup>◦</sup>) viewing angles (<span>Urry & Padovani 1995</span>). Their spectra are fully dominated by non-thermal radiation from the relativistic jets. Blazars are usually subdivided into flat-spectrum radio quasars (FSRQs) and BL Lac objects (BLLs) (e.g., <span>Stocke et al. 1991; Marcha et al. 1996</span>). It has been suggested that the division between these two subclasses could be due to their different accretion regimes with FSRQs having higher accretion rates above 10<sup>-2</sup> of the Eddington rate (<span>Ghisellini et al. 2009</span>).</p>
-        
-        <figure>
-            <img src="./images/agn.jpg">
-            <figcaption>Fig. Artist's impression of the active galactic nucleus. Image source: <a href="https://fermi.gsfc.nasa.gov/science/eteu/agn/">https://fermi.gsfc.nasa.gov/science/eteu/agn/.</a></figcaption>
-        </figure>  
-        <h2>References</h2>
+<div class="page-hero">
+  <p class="section-label reveal">Research</p>
+  <h1 class="page-title reveal">My <span>Research Areas</span></h1>
+  <p class="page-subtitle reveal">Extragalactic astronomy · High-energy astrophysics · AGN &amp; blazars</p>
+
+  <div class="research-grid reveal">
+    <div class="research-card">
+      <div class="research-card-icon">🌀</div>
+      <h3>Active Galactic Nuclei (AGN)</h3>
+      <p>Studying supermassive black holes and their accretion processes. Focus on the broad line region (BLR), Fe II emission, photoionization modelling with CLOUDY, and the dusty/dustless nature of AGN environments.</p>
+      <div style="margin-top:1rem"><a href="#agn-section" class="btn btn-outline" style="font-size:.8rem">Read More →</a></div>
+    </div>
+    <div class="research-card">
+      <div class="research-card-icon">⚡</div>
+      <h3>Blazars &amp; Relativistic Jets</h3>
+      <p>Multi-wavelength variability studies of TeV blazars including flux, spectral and polarization variability at optical, X-ray, and gamma-ray energies. Data from NuSTAR, Chandra, XMM-Newton, Fermi-LAT.</p>
+      <div style="margin-top:1rem"><a href="#xray-section" class="btn btn-outline" style="font-size:.8rem">X-ray Data →</a></div>
+    </div>
+    <div class="research-card">
+      <div class="research-card-icon">🔭</div>
+      <h3>Optical Photometry</h3>
+      <p>Intra-night and long-term optical monitoring of blazars using 1.0–1.3m class telescopes at ARIES, Nainital. Observations in BVRI bands to study variability patterns and correlations.</p>
+      <div style="margin-top:1rem"><a href="#optical-section" class="btn btn-outline" style="font-size:.8rem">Optical Data →</a></div>
+    </div>
+    <div class="research-card">
+      <div class="research-card-icon">☢️</div>
+      <h3>X-ray Spectroscopy</h3>
+      <p>X-ray flux and spectral variability studies using NuSTAR, Chandra, XMM-Newton, Swift, and NICER. Analysis of disc-jet interactions, reflection features, and corona properties in AGN and blazars.</p>
+      <div style="margin-top:1rem"><a href="#xray-section" class="btn btn-outline" style="font-size:.8rem">X-ray Data →</a></div>
+    </div>
+  </div>
+
+  <!-- Sub-page nav -->
+  <div class="tab-nav reveal">
+    <button class="tab-btn active" onclick="showTab('agn-section',this)">AGN &amp; Blazars</button>
+    <button class="tab-btn" onclick="showTab('optical-section',this)">Optical Data</button>
+    <button class="tab-btn" onclick="showTab('xray-section',this)">X-ray Data</button>
+    <button class="tab-btn" onclick="showTab('papers-section',this)">Key Papers</button>
+  </div>
+</div>
+
+<!-- AGN TAB -->
+<div id="agn-section" class="tab-content active">
+  <div class="section-inner" style="padding-top:0">
+    <div class="content-body reveal">
+      <h3>Active Galactic Nuclei (AGNs)</h3>
+      <p>A small fraction (~10%) of galaxies in our universe has a compact, highly luminous (L~10<sup>44−48</sup> ergs/s) central region that emits radiation comparable to or sometimes even higher than the radiation emitted by the rest of the galaxy. These galaxies are called 'active galaxies' and their nuclei are termed as 'Active Galactic Nuclei' (AGNs). Some AGNs host relativistic bipolar outflows or jets that emit non-thermal continuum emission from radio to γ−rays.</p>
+
+      <h3>1.1 A Brief History of AGN</h3>
+      <p>In 1908, E.A. Fath at Lick Observatory detected strong emission lines in the optical spectra of nebula NGC 1068. Carl Seyfert, in 1943, observed strong broad emission lines in the optical spectra of six spiral galaxies. In the late 1950s, radio surveys published catalogues such as the Third Cambridge Catalogue (3C). Schmidt (1963) identified 3C 273 as an extragalactic source with redshift z = 0.158 — a new class named quasars (QSOs).</p>
+      <p>The idea of accretion onto a supermassive black hole was proposed in the 1960s by Salpeter (1964) and Lynden-Bell (1969). Rees (1984) confirmed AGN are powered by accreting SMBHs at galactic centers.</p>
+
+      <h3>1.2 Basic Components of AGN</h3>
+      <ul>
+        <li><strong style="color:var(--text)">Supermassive Black Hole (SMBH):</strong> M<sub>BH</sub> ~ 10<sup>6-9</sup> M<sub>☉</sub> at the center, pulling surrounding matter by gravity.</li>
+        <li><strong style="color:var(--text)">Accretion Disk (AD):</strong> Spiraling disk of infalling matter that radiates thermally across UV/optical bands.</li>
+        <li><strong style="color:var(--text)">X-ray Corona:</strong> Hot plasma sandwiching the disk — inverse-Comptonizes disk photons to produce X-rays.</li>
+        <li><strong style="color:var(--text)">Broad Line Region (BLR):</strong> Dense (~10<sup>10</sup> cm<sup>−3</sup>) gas clouds at 0.1–1 pc, producing Doppler-broadened emission lines.</li>
+        <li><strong style="color:var(--text)">Obscuring Torus:</strong> Dusty torus at 1–10 pc; obscures central regions and re-emits in infrared.</li>
+        <li><strong style="color:var(--text)">Narrow Line Region (NLR):</strong> Lower density (~10<sup>3</sup> cm<sup>−3</sup>) clouds at ~100 pc producing narrow emission lines.</li>
+        <li><strong style="color:var(--text)">Relativistic Jets:</strong> Magnetically collimated bipolar outflows extending to kpc–Mpc scales, seen in jetted AGN.</li>
+      </ul>
+
+      <h3>1.3 AGN Taxonomy &amp; Blazars</h3>
+      <p>About 15% of AGN are jetted-AGN (<span>Padovani et al. 2017</span>). Blazars are jetted-AGN aligned at small (≤ 15–20°) viewing angles (<span>Urry &amp; Padovani 1995</span>), and their spectra are dominated by non-thermal radiation. They are subdivided into FSRQs (flat-spectrum radio quasars) and BL Lac objects.</p>
+
+      <figure>
+        <img src="images/agn.jpg" alt="Artist impression of AGN" onerror="this.style.display='none'">
+        <figcaption>Artist's impression of an active galactic nucleus. Image: <a href="https://fermi.gsfc.nasa.gov/science/eteu/agn/" target="_blank">NASA/Fermi</a></figcaption>
+      </figure>
+
+      <div class="refs-list">
+        <h3>References</h3>
         <ul>
-        <li>Ghisellini, G., Maraschi, L., & Tavecchio, F. 2009, MNRAS, 396, L105</li>    
-        <li>Marcha, M. J. M., Browne, I. W. A., Impey, C. D., & Smith, P. S. 1996, MNRAS, 281, 425</li>    
-        <li>Padovani, P., Alexander, D. M., Assef, R. J., et al. 2017, A&ARv, 25, 2</li>
-        <li>Rees, M. J. 1984, ARA&A, 22, 471</li>
-        <li>Stocke, J. T., Morris, S. L., Gioia, I. M., et al. 1991, ApJS, 76, 813</li>    
-        <li>Urry, C. M., & Padovani, P. 1995, PASP, 107, 803</li>    
+          <li>Ghisellini, G., Maraschi, L., &amp; Tavecchio, F. 2009, MNRAS, 396, L105</li>
+          <li>Padovani, P., Alexander, D. M., Assef, R. J., et al. 2017, A&amp;ARv, 25, 2</li>
+          <li>Rees, M. J. 1984, ARA&amp;A, 22, 471</li>
+          <li>Urry, C. M., &amp; Padovani, P. 1995, PASP, 107, 803</li>
         </ul>
-        
-            
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OPTICAL TAB -->
+<div id="optical-section" class="tab-content">
+  <div class="section-inner" style="padding-top:0">
+    <div class="reveal content-body">
+      <p>Optical photometric observations of TeV blazars using the <strong style="color:var(--text)">1.3 m Devasthal Fast Optical Telescope (DFOT)</strong> and <strong style="color:var(--text)">1.04 m Sampuranand Telescope</strong>, both at ARIES, Nainital, India.</p>
+    </div>
+
+    <div class="source-header reveal">
+      <h4>1ES 0229+200</h4>
+      <p>RA: 02h 32m 53.2s &nbsp;|&nbsp; Dec: +20° 16' 21"</p>
+    </div>
+    <div class="obs-table-wrap reveal">
+      <table class="obs-table">
+        <tr><th>Date</th><th>JD</th><th>Telescope</th><th>Data pts (B,V,R,I)</th></tr>
+        <tr><td>24-10-2016</td><td>2457686.30358</td><td>DFOT (1.3m)</td><td>1,0,40,0</td></tr>
+        <tr><td>25-10-2016</td><td>2457687.31715</td><td>DFOT (1.3m)</td><td>1,0,32,0</td></tr>
+        <tr><td>26-10-2016</td><td>2457688.30863</td><td>DFOT (1.3m)</td><td>1,0,30,0</td></tr>
+        <tr><td>24-11-2016</td><td>2457717.28042</td><td>DFOT (1.3m)</td><td>0,0,41,0</td></tr>
+        <tr><td>25-11-2016</td><td>2457718.22020</td><td>DFOT (1.3m)</td><td>1,0,50,0</td></tr>
+        <tr><td>10-10-2018</td><td>2458402.32068</td><td>DFOT (1.3m)</td><td>1,0,42,0</td></tr>
+        <tr><td>28-12-2018</td><td>2458481.05990</td><td>DFOT (1.3m)</td><td>0,0,34,0</td></tr>
+        <tr><td>29-12-2018</td><td>2458482.05153</td><td>DFOT (1.3m)</td><td>1,0,47,0</td></tr>
+      </table>
+    </div>
+
+    <div class="source-header reveal">
+      <h4>1ES 0414+009</h4>
+      <p>RA: 04h 16m 53.0s &nbsp;|&nbsp; Dec: +01° 05' 20"</p>
+    </div>
+    <div class="obs-table-wrap reveal">
+      <table class="obs-table">
+        <tr><th>Date</th><th>JD</th><th>Telescope</th><th>Data pts (B,V,R,I)</th></tr>
+        <tr><td>30-12-2016</td><td>2457753.09527</td><td>DFOT (1.3m)</td><td>0,1,35,1</td></tr>
+        <tr><td>18-01-2017</td><td>2457772.11041</td><td>DFOT (1.3m)</td><td>0,2,02,1</td></tr>
+        <tr><td>19-01-2017</td><td>2457773.09260</td><td>DFOT (1.3m)</td><td>0,1,32,1</td></tr>
+        <tr><td>31-10-2018</td><td>2458423.62996</td><td>ST (1.04m)</td><td>0,1,38,0</td></tr>
+        <tr><td>15-12-2018</td><td>2458468.23930</td><td>DFOT (1.3m)</td><td>0,1,56,1</td></tr>
+        <tr><td>28-12-2018</td><td>2458481.30444</td><td>DFOT (1.3m)</td><td>0,1,30,1</td></tr>
+      </table>
+    </div>
+
+    <div class="source-header reveal">
+      <h4>1ES 2344+514</h4>
+      <p>RA: 23h 47m 04.8s &nbsp;|&nbsp; Dec: +51° 42' 17.9"</p>
+    </div>
+    <div class="obs-table-wrap reveal">
+      <table class="obs-table">
+        <tr><th>Date</th><th>JD</th><th>Telescope</th><th>Data pts (B,V,R,I)</th></tr>
+        <tr><td>24-10-2016</td><td>2457686.27076</td><td>DFOT (1.3m)</td><td>0,1,01,1</td></tr>
+        <tr><td>25-10-2016</td><td>2457687.08169</td><td>DFOT (1.3m)</td><td>0,1,59,1</td></tr>
+        <tr><td>26-10-2016</td><td>2457688.07811</td><td>DFOT (1.3m)</td><td>0,1,70,1</td></tr>
+        <tr><td>08-11-2016</td><td>2457701.13915</td><td>ST (1.04m)</td><td>0,1,41,1</td></tr>
+        <tr><td>10-10-2018</td><td>2458402.07662</td><td>DFOT (1.3m)</td><td>0,0,95,1</td></tr>
+        <tr><td>15-10-2018</td><td>2458407.12018</td><td>DFOT (1.3m)</td><td>0,1,70,1</td></tr>
+        <tr><td>28-12-2018</td><td>2458481.04459</td><td>DFOT (1.3m)</td><td>0,1,01,1</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- X-RAY TAB -->
+<div id="xray-section" class="tab-content">
+  <div class="section-inner" style="padding-top:0">
+    <div class="coming-soon reveal">
+      <div class="cs-icon">☢️</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;margin-bottom:.8rem;color:var(--accent)">X-ray Data</h3>
+      <p>Detailed X-ray observation logs and spectral analysis results will be updated here soon.</p>
+      <p style="margin-top:.5rem">In the meantime, see publications for X-ray results:</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem">
+        <a href="https://doi.org/10.3847/1538-4357/aabc5b" target="_blank" class="btn btn-outline" style="font-size:.8rem">NuSTAR Spectral Variability (2018) ↗</a>
+        <a href="https://doi.org/10.1051/0004-6361/202451840" target="_blank" class="btn btn-outline" style="font-size:.8rem">3C 273 Disc-Jet (2025) ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAPERS TAB -->
+<div id="papers-section" class="tab-content">
+  <div class="section-inner" style="padding-top:0">
+    <p class="section-label reveal">Recommended Reading</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;margin-bottom:1.5rem" class="reveal">Key Papers in the Field</h2>
+    <div class="pub-list reveal">
+      <a href="https://doi.org/10.1093/mnras/staa1717" target="_blank" class="pub-item">
+        <span class="pub-num">01</span>
+        <div>
+          <div class="pub-title">Fe III emission in quasars: evidence for a dense turbulent medium</div>
+          <div class="pub-authors">Temple et al. 2020</div>
+          <div class="pub-journal">MNRAS · 2020</div>
         </div>
-</div>  
-       
-       
- </body>
+        <span class="pub-arrow">→</span>
+      </a>
+    </div>
+    <p style="color:var(--muted);font-size:.85rem;margin-top:1.5rem;text-align:center">More papers will be added soon.</p>
+  </div>
+</div>
+
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    document.querySelectorAll('#'+id+' .reveal').forEach(el => { el.classList.add('visible'); });
+  }
+</script>
+</body>
 </html>

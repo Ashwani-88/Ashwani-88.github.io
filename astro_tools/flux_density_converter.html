@@ -1,76 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flux density converter</title>
-    <link rel="stylesheet" href="tools_style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flux Density Converter | Astro Tools</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="tools_style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Flux Density Converter</h1>
+<nav id="main-nav">
+  <a class="nav-logo" href="../index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="tools_home.html" class="active">Tools</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-        <label for="wavelength">Enter wavelength (in Angstrom):</label>
+<div class="tool-page">
+  <a href="tools_home.html" class="back-link">← All Tools</a>
+  <p class="section-label" style="margin-bottom:.5rem">Astro Tools</p>
+  <h1>Flux Density <span>Converter</span></h1>
+  <p class="subtitle">Convert between F<sub>λ</sub> and F<sub>ν</sub> flux density units</p>
 
-        <input type="number" id="wavelength" placeholder="Enter wavelength">
-
-        <br>
-
-        <label for="flambda">Enter 	&fnof;<sub>&lambda;</sub> (in erg cm<sup>-2</sup> s<sup>-1</sup> &#8491;<sup>-1</sup>):</label>
-        <input type="text" id="flambda" placeholder="Enter flux density">
-
-        <br>
-
-        <button onclick="converttoFnu()">Convert to &fnof;<sub>&nu;</sub></button>
-        <br>
-        <label for="wavelength2">Enter wavelength (in Angstrom):</label>
-
-        <input type="number" id="wavelength2" placeholder="Enter wavelength">
-
-        <br>
-
-        <label for="fnu">Enter &fnof;<sub>&nu;</sub> (in erg cm<sup>-2</sup> s<sup>-1</sup> Hz<sup>-1</sup>):</label>
-        <input type="text" id="fnu" placeholder="Enter flux density">
-
-        <br>
-
-        <button onclick="converttoFlambda()">Convert to &fnof;<sub>&lambda;</sub></button>
-        
-
-        <br>
-        <h2>Converted Values:</h2>
-        <p id="convertedValue"></p>
-
+  <div class="converter-block">
+    <h2>✨ F<sub>λ</sub> → F<sub>ν</sub></h2>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">F<sub>ν</sub> = (λ² / c) × F<sub>λ</sub> &nbsp;·&nbsp; Using c = 3×10¹⁸ Å/s</p>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Wavelength (Å)</label>
+        <input type="number" id="lambda1" placeholder="e.g. 5000">
+      </div>
+      <div class="input-group" style="flex:2">
+        <label>F<sub>λ</sub> (erg cm⁻² s⁻¹ Å⁻¹)</label>
+        <input type="text" id="flambda" placeholder="e.g. 1.5e-15">
+      </div>
+      <button class="convert-btn" onclick="toFnu()">→ F<sub>ν</sub></button>
     </div>
-    <script>
-        function converttoFnu() {
-            const lambda = parseFloat(document.getElementById("wavelength").value);
-            const flambda = parseFloat(document.getElementById("flambda").value);
-            if (lambda > 0 && flambda > 0) {
-                const scale = 3.34 * 1e-19;    
-                const fnu_val = scale * lambda * lambda * flambda;          
-                document.getElementById("convertedValue").textContent = fnu_val.toExponential(4) + " erg/cm2/s/Hz";
-            
-            } else {
-                document.getElementById("convertedValue").textContent = "Invalid values";
-            }
-        }
-        function converttoFlambda() {
-            const lambda2 = parseFloat(document.getElementById("wavelength2").value);
-            const fnu = parseFloat(document.getElementById("fnu").value);
-            if (lambda2 > 0 && fnu > 0) {
-                const scale2 = 3. * 1e18;
-                const flambda_val = (scale2 * fnu)/(lambda2 * lambda2); 
-                document.getElementById("convertedValue").textContent =flambda_val.toExponential(4) + " erg/cm2/s/A";
-            
-            } else {
-                document.getElementById("convertedValue").textContent = "Invalid values";
-            }
-        }   
-        
-     
-    </script>
+    <div class="result-box" id="res1"><div class="result-label">Result</div><div id="res1val"></div></div>
+  </div>
 
+  <div class="converter-block">
+    <h2>✨ F<sub>ν</sub> → F<sub>λ</sub></h2>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">F<sub>λ</sub> = (c / λ²) × F<sub>ν</sub></p>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Wavelength (Å)</label>
+        <input type="number" id="lambda2" placeholder="e.g. 5000">
+      </div>
+      <div class="input-group" style="flex:2">
+        <label>F<sub>ν</sub> (erg cm⁻² s⁻¹ Hz⁻¹)</label>
+        <input type="text" id="fnu" placeholder="e.g. 1.2e-27">
+      </div>
+      <button class="convert-btn" onclick="toFlambda()">→ F<sub>λ</sub></button>
+    </div>
+    <div class="result-box" id="res2"><div class="result-label">Result</div><div id="res2val"></div></div>
+  </div>
+</div>
+
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+  function showResult(id, html) { const b = document.getElementById(id); b.querySelector('div:last-child').innerHTML = html; b.classList.add('show'); }
+  function toFnu() {
+    const lam = parseFloat(document.getElementById('lambda1').value);
+    const fl = parseFloat(document.getElementById('flambda').value);
+    if (!(lam > 0 && fl > 0)) return showResult('res1','<span style="color:#f87171">Invalid values</span>');
+    const fnu = 3.34e-19 * lam * lam * fl;
+    showResult('res1', `F<sub>ν</sub> = <strong>${fnu.toExponential(4)} erg cm⁻² s⁻¹ Hz⁻¹</strong>`);
+  }
+  function toFlambda() {
+    const lam = parseFloat(document.getElementById('lambda2').value);
+    const fn = parseFloat(document.getElementById('fnu').value);
+    if (!(lam > 0 && fn > 0)) return showResult('res2','<span style="color:#f87171">Invalid values</span>');
+    const fl = (3e18 * fn) / (lam * lam);
+    showResult('res2', `F<sub>λ</sub> = <strong>${fl.toExponential(4)} erg cm⁻² s⁻¹ Å⁻¹</strong>`);
+  }
+</script>
 </body>
 </html>
-

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flux density converter</title>
+    <link rel="stylesheet" href="tools_style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Flux Density Converter</h1>
+
+        <label for="wavelength">Enter wavelength (in Angstrom):</label>
+
+        <input type="number" id="wavelength" placeholder="Enter wavelength">
+
+        <br>
+
+        <label for="flambda">Enter 	&fnof;<sub>&lambda;</sub> (in erg cm<sup>-2</sup> s<sup>-1</sup> &#8491;<sup>-1</sup>):</label>
+        <input type="text" id="flambda" placeholder="Enter flux density">
+
+        <br>
+
+        <button onclick="converttoFnu()">Convert to &fnof;<sub>&nu;</sub></button>
+        <br>
+        <label for="wavelength2">Enter wavelength (in Angstrom):</label>
+
+        <input type="number" id="wavelength2" placeholder="Enter wavelength">
+
+        <br>
+
+        <label for="fnu">Enter &fnof;<sub>&nu;</sub> (in erg cm<sup>-2</sup> s<sup>-1</sup> Hz<sup>-1</sup>):</label>
+        <input type="text" id="fnu" placeholder="Enter flux density">
+
+        <br>
+
+        <button onclick="converttoFlambda()">Convert to &fnof;<sub>&lambda;</sub></button>
+        
+
+        <br>
+        <h2>Converted Values:</h2>
+        <p id="convertedValue"></p>
+
+    </div>
+    <script>
+        function converttoFnu() {
+            const lambda = parseFloat(document.getElementById("wavelength").value);
+            const flambda = parseFloat(document.getElementById("flambda").value);
+            if (lambda > 0 && flambda > 0) {
+                const scale = 3.34 * 1e-19;    
+                const fnu_val = scale * lambda * lambda * flambda;          
+                document.getElementById("convertedValue").textContent = fnu_val.toExponential(4) + " erg/cm2/s/Hz";
+            
+            } else {
+                document.getElementById("convertedValue").textContent = "Invalid values";
+            }
+        }
+        function converttoFlambda() {
+            const lambda2 = parseFloat(document.getElementById("wavelength2").value);
+            const fnu = parseFloat(document.getElementById("fnu").value);
+            if (lambda2 > 0 && fnu > 0) {
+                const scale2 = 3. * 1e18;
+                const flambda_val = (scale2 * fnu)/(lambda2 * lambda2); 
+                document.getElementById("convertedValue").textContent =flambda_val.toExponential(4) + " erg/cm2/s/A";
+            
+            } else {
+                document.getElementById("convertedValue").textContent = "Invalid values";
+            }
+        }   
+        
+     
+    </script>
+
+</body>
+</html>
+

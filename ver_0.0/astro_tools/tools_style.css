@@ -1,0 +1,29 @@
+ .container {
+            margin-top: 40px;
+            display: block;
+            text-align: center;
+        }
+.container label {
+            margin-top:  40px;
+            padding: 10px;
+            font-size: 20px;
+        }
+.container button {
+            margin: 30px;
+            font-size: large;
+            border-radius: 8px;
+        }
+ .container button:hover {
+            font-size: larger;
+            font-weight: 500;
+            color: red;
+                       
+        }
+ .container input {
+            font-size: large;
+        }
+.container p {
+            font-size: 30px;
+            font-weight: 200;
+            padding: 1cap;
+        }

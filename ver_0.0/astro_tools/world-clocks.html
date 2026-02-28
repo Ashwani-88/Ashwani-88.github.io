@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>World Clocks — Normal</title>
+    <style>
+      body {
+        font-family: "Courier New", monospace;
+        background: #111;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+      }
+
+      .clocks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .clock {
+        background: #222;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        min-width: 280px;
+      }
+
+      .city {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .time {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+
+      .digit {
+        width: 40px;
+        height: 60px;
+        background: #000;
+        border-radius: 4px;
+        box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.8);
+        font-size: 40px;
+        color: #0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .date {
+        margin-top: 5px;
+        font-size: 14px;
+        color: #ccc;
+        white-space: pre-line;
+      }
+
+      select {
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>World Clocks</h1>
+    <div class="clocks">
+      <div
+        class="clock"
+        data-tz="America/Denver"
+        data-label="Salt Lake City"
+      ></div>
+      <div class="clock" data-tz="Europe/Warsaw" data-label="Warsaw"></div>
+      <div class="clock" data-tz="Europe/Paris" data-label="Paris"></div>
+      <div class="clock" data-tz="Asia/Kolkata" data-label="India (IST)"></div>
+      <div class="clock" data-tz="America/New_York" data-label="New York"></div>
+      <div class="clock custom-clock"></div>
+    </div>
+
+    <script>
+      const timeZones = [
+        { label: "UTC", tz: "UTC" },
+        { label: "London", tz: "Europe/London" },
+        { label: "Tokyo", tz: "Asia/Tokyo" },
+        { label: "Sydney", tz: "Australia/Sydney" },
+        { label: "Los Angeles", tz: "America/Los_Angeles" },
+        { label: "Chicago", tz: "America/Chicago" },
+        { label: "Toronto", tz: "America/Toronto" },
+      ];
+
+      function buildClock(clockEl, tz, label, isCustom = false) {
+        clockEl.innerHTML = `
+        <div class="city">${label}</div>
+        <div class="time"></div>
+        <div class="date"></div>
+        ${
+          isCustom
+            ? `
+          <select class="city-select">
+            ${timeZones
+              .map((t) => `<option value="${t.tz}">${t.label}</option>`)
+              .join("")}
+          </select>
+        `
+            : ""
+        }
+      `;
+
+        if (isCustom) {
+          const select = clockEl.querySelector(".city-select");
+          const savedTz = localStorage.getItem("customTz") || "UTC";
+          select.value = savedTz;
+          tz = savedTz;
+          select.addEventListener("change", () => {
+            localStorage.setItem("customTz", select.value);
+            clockEl.setAttribute("data-tz", select.value);
+            clockEl.querySelector(".city").innerText =
+              timeZones.find((t) => t.tz === select.value)?.label ||
+              "Custom City";
+          });
+        }
+
+        const timeContainer = clockEl.querySelector(".time");
+        // build HH:MM:SS static digits
+        for (let i = 0; i < 8; i++) {
+          if (i === 2 || i === 5) {
+            const colon = document.createElement("div");
+            colon.className = "digit";
+            colon.innerText = ":";
+            timeContainer.appendChild(colon);
+          } else {
+            const digit = document.createElement("div");
+            digit.className = "digit";
+            digit.innerText = "0";
+            timeContainer.appendChild(digit);
+          }
+        }
+      }
+
+      function updateClock(clockEl) {
+        const tz = clockEl.getAttribute("data-tz");
+        const now = new Date();
+        const options = { hour12: false, timeZone: tz };
+        const parts = new Intl.DateTimeFormat("en-GB", {
+          ...options,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+          .format(now)
+          .split(":");
+
+        const timeStr = parts.join(":");
+        const digits = timeStr.replace(/:/g, "");
+        const digitEls = clockEl.querySelectorAll(".digit");
+
+        let di = 0;
+        for (let i = 0; i < digitEls.length; i++) {
+          if (digitEls[i].innerText === ":") continue;
+          digitEls[i].innerText = digits[di++];
+        }
+
+        // date string
+        clockEl.querySelector(".date").innerText =
+          new Intl.DateTimeFormat("en-GB", {
+            timeZone: tz,
+            weekday: "short",
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }).format(now) +
+          "\n" +
+          new Intl.DateTimeFormat("en-GB", {
+            timeZone: tz,
+            timeZoneName: "short",
+          })
+            .formatToParts(now)
+            .find((p) => p.type === "timeZoneName").value;
+      }
+
+      // build clocks
+      document.querySelectorAll(".clock").forEach((el) => {
+        const tz = el.dataset.tz || "UTC";
+        const label = el.dataset.label || "Custom City";
+        buildClock(el, tz, label, el.classList.contains("custom-clock"));
+      });
+
+      setInterval(() => {
+        document.querySelectorAll(".clock").forEach(updateClock);
+      }, 1000);
+    </script>
+  </body>
+</html>

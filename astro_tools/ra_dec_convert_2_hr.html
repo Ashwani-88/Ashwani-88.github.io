@@ -1,64 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RA and Dec Converter</title>
-    <link rel="stylesheet" href="tools_style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>RA and Dec Converter</h1>
-      <h2>From Degrees to Sexigesimal coordinates</h2>
-      <label for="raInput">Enter RA in degrees:</label>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RA &amp; Dec Converter | Astro Tools</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="tools_style.css">
+</head>
+<body>
+<nav id="main-nav">
+  <a class="nav-logo" href="../index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="tools_home.html" class="active">Tools</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-      <input type="number" id="raInput" step="any" placeholder="e.g., 120.5" />
+<div class="tool-page">
+  <a href="tools_home.html" class="back-link">← All Tools</a>
+  <p class="section-label" style="margin-bottom:.5rem">Astro Tools</p>
+  <h1>RA &amp; Dec <span>Converter</span></h1>
+  <p class="subtitle">Decimal degrees → Sexagesimal coordinates (hh:mm:ss / dd:mm:ss)</p>
 
-      <br />
-      <br />
-
-      <label for="decInput">Enter Dec in degrees:</label>
-      <input type="number" id="decInput" step="any" placeholder="e.g., 35.75" />
-
-      <br />
-
-      <button onclick="convert()">Convert</button>
-
-      <br />
-
-      <h2>Converted Values:</h2>
-      <p id="convertedValues"></p>
+  <div class="converter-block">
+    <h2>🌐 Degrees → h m s / d m s</h2>
+    <div class="input-row">
+      <div class="input-group">
+        <label>RA (degrees)</label>
+        <input type="number" id="raInput" step="any" placeholder="e.g. 120.5">
+      </div>
+      <div class="input-group">
+        <label>Dec (degrees)</label>
+        <input type="number" id="decInput" step="any" placeholder="e.g. –35.75">
+      </div>
+      <button class="convert-btn" onclick="convert()">Convert →</button>
     </div>
-    <script>
-      function degToHMS(degrees) {
-        const hours = Math.floor(degrees / 15);
-        const minutes = Math.floor((degrees % 15) * 4);
-        const seconds = ((degrees % 15) * 4 - minutes) * 60;
+    <div class="result-box" id="res"><div class="result-label">Result</div><div id="resval"></div></div>
+  </div>
 
-        return `${hours}h ${minutes}m ${seconds.toFixed(2)}s`;
-      }
+  <div class="converter-block" style="background:transparent;border-color:rgba(79,195,247,0.08)">
+    <h2 style="color:var(--muted)">Also available</h2>
+    <a href="ra_dec_convert_2_deg.html" class="btn btn-outline" style="font-size:.82rem">Sexagesimal → Degrees ↗</a>
+  </div>
+</div>
 
-      function degToDMS(degrees) {
-        const sign = degrees >= 0 ? "+" : "-";
-        degrees = Math.abs(degrees);
-        const degreesInt = Math.floor(degrees);
-        const minutes = Math.floor((degrees - degreesInt) * 60);
-        const seconds = ((degrees - degreesInt) * 60 - minutes) * 60;
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
 
-        return `${sign}${degreesInt}° ${minutes}' ${seconds.toFixed(2)}"`;
-      }
-
-      function convert() {
-        const raInput = document.getElementById("raInput").value;
-        const decInput = document.getElementById("decInput").value;
-
-        const raConverted = degToHMS(parseFloat(raInput));
-        const decConverted = degToDMS(parseFloat(decInput));
-
-        document.getElementById(
-          "convertedValues"
-        ).innerHTML = `RA: ${raConverted} <br>   Dec: ${decConverted}`;
-      }
-    </script>
-  </body>
+<script>
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+  function showResult(id, html) { const b = document.getElementById(id); b.querySelector('div:last-child').innerHTML = html; b.classList.add('show'); }
+  function degToHMS(deg) {
+    const h = Math.floor(deg / 15);
+    const m = Math.floor((deg % 15) * 4);
+    const s = ((deg % 15) * 4 - m) * 60;
+    return `${h}h ${m}m ${s.toFixed(3)}s`;
+  }
+  function degToDMS(deg) {
+    const sign = deg >= 0 ? '+' : '−';
+    deg = Math.abs(deg);
+    const d = Math.floor(deg);
+    const m = Math.floor((deg - d) * 60);
+    const s = ((deg - d) * 60 - m) * 60;
+    return `${sign}${d}° ${m}' ${s.toFixed(3)}"`;
+  }
+  function convert() {
+    const ra = parseFloat(document.getElementById('raInput').value);
+    const dec = parseFloat(document.getElementById('decInput').value);
+    if (isNaN(ra) || isNaN(dec)) return showResult('res','<span style="color:#f87171">Invalid input</span>');
+    showResult('res', `RA: <strong>${degToHMS(ra)}</strong><br>Dec: <strong>${degToDMS(dec)}</strong>`);
+  }
+</script>
+</body>
 </html>

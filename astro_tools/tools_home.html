@@ -1,69 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Astronomical tools</title>
-    <style>
-      h1 {
-        color: red;
-        font-size: 50px;
-        text-align: center;
-      }
-      ul li {
-        padding: 10px;
-        font-size: large;
-      }
-      ul a {
-        font-weight: 600;
-        text-decoration: none;
-        color: black;
-      }
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Astronomical Tools | Ashwani Pandey</title>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    .tools-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.4rem; }
+    .tool-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.8rem; text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:.7rem; transition:all .2s; }
+    .tool-card:hover { border-color:rgba(79,195,247,0.4); transform:translateY(-4px); background:var(--bg3); }
+    .tool-icon { font-size:2rem; }
+    .tool-name { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:var(--accent); }
+    .tool-desc { font-size:.87rem; color:#9aacba; line-height:1.7; flex:1; }
+    .tool-arrow { font-size:.85rem; color:var(--muted); align-self:flex-end; transition:color .2s,transform .2s; }
+    .tool-card:hover .tool-arrow { color:var(--accent); transform:translateX(4px); }
+    .disclaimer { background:rgba(255,213,79,0.05); border:1px solid rgba(255,213,79,0.2); border-radius:8px; padding:1.2rem 1.5rem; font-size:.85rem; color:#b0aa7a; margin-top:2.5rem; line-height:1.75; }
+    .disclaimer a { color:var(--accent); }
+  </style>
+</head>
+<body>
+<nav id="main-nav">
+  <a class="nav-logo" href="../index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="tools_home.html" class="active">Tools</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-      ul a:hover {
-        color: blue;
-      }
-      footer {
-  height: 60px;
-  font-family: "Marhey", sans-serif;
-  color: red;
-  font-size: 14px;
-  padding-top: 10px;
-  margin-bottom: 0;
-  font-weight: 600;
-        
-}
+<div class="page-hero">
+  <p class="section-label reveal">Utilities</p>
+  <h1 class="page-title reveal">Astronomical <span>Tools</span></h1>
+  <p class="page-subtitle reveal">Quick converters and utilities for observational astronomy</p>
 
-    </style>
-  </head>
-  <body>
-    <h1>Astronomical Tools</h1>
-    <ul>
-      <li>
-        <a href="ra_dec_convert_2_hr.html"
-          >RA and Dec converter (Degrees to sexigesimal coordinates)</a
-        >
-      </li>
-      <li>
-        <a href="ra_dec_convert_2_deg.html"
-          >RA and Dec converter (Sexigesimal coordinates to degrees)</a
-        >
-      </li>
-      <li><a href="julian_date_converter.html">Julian date converter</a></li>
-      <li>
-        <a href="wavelength_to_frequency.html"
-          >Wavelength to frequency converter</a
-        >
-      </li>
-      <li><a href="flux_density_converter.html">Flux density converter</a></li>
+  <div class="tools-grid reveal">
+    <a href="ra_dec_convert_2_hr.html" class="tool-card">
+      <div class="tool-icon">🌐</div>
+      <div class="tool-name">RA &amp; Dec Converter</div>
+      <div class="tool-desc">Convert Right Ascension and Declination from decimal degrees to sexagesimal coordinates (hh:mm:ss, dd:mm:ss).</div>
+      <div class="tool-arrow">→</div>
+    </a>
+    <a href="ra_dec_convert_2_deg.html" class="tool-card">
+      <div class="tool-icon">📐</div>
+      <div class="tool-name">RA &amp; Dec Converter</div>
+      <div class="tool-desc">Convert Right Ascension and Declination from sexagesimal coordinates to decimal degrees.</div>
+      <div class="tool-arrow">→</div>
+    </a>
+    <a href="julian_date_converter.html" class="tool-card">
+      <div class="tool-icon">📅</div>
+      <div class="tool-name">Julian Date Converter</div>
+      <div class="tool-desc">Convert between calendar dates, Julian Dates (JD), and Modified Julian Dates (MJD).</div>
+      <div class="tool-arrow">→</div>
+    </a>
+    <a href="wavelength_to_frequency.html" class="tool-card">
+      <div class="tool-icon">〰️</div>
+      <div class="tool-name">Wavelength ↔ Frequency</div>
+      <div class="tool-desc">Convert between wavelength (Å), frequency (Hz), and energy (keV) for electromagnetic radiation.</div>
+      <div class="tool-arrow">→</div>
+    </a>
+    <a href="flux_density_converter.html" class="tool-card">
+      <div class="tool-icon">✨</div>
+      <div class="tool-name">Flux Density Converter</div>
+      <div class="tool-desc">Convert between F<sub>λ</sub> (erg cm⁻² s⁻¹ Å⁻¹) and F<sub>ν</sub> (erg cm⁻² s⁻¹ Hz⁻¹) flux densities.</div>
+      <div class="tool-arrow">→</div>
+    </a>
+    <a href="world-clocks.html" class="tool-card">
+      <div class="tool-icon">🕐</div>
+      <div class="tool-name">World Clocks</div>
+      <div class="tool-desc">Live clocks for Salt Lake City, Warsaw, Paris, India, and New York — plus a customizable timezone.</div>
+      <div class="tool-arrow">→</div>
+    </a>
+  </div>
 
-      </li>
-      <li><a href="world-clocks.html">World clock</a></li>
-    </ul>
-  </body>
-  <footer>Disclaimer: These converters have been created for my personal use. 
-    You are welcome to use them if you wish, but I cannot take responsibility for any discrepancies that may arise. 
-    However, I would be glad to address and resolve any issues or discrepancies you may notice in their output. Feel free to 
-    let me know if you notice any discrepancies by emailing <a href= "mailto:ashwanitapan@mail.com">ashwanitapan@mail.com</a>.
-  </footer>
+  <div class="disclaimer reveal">
+    ⚠️ <strong>Disclaimer:</strong> These tools were created for personal use. You are welcome to use them, but I cannot take responsibility for any discrepancies that may arise. I would be glad to address any issues — feel free to email <a href="mailto:ashwanitapan@gmail.com">ashwanitapan@gmail.com</a>.
+  </div>
+</div>
+
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+</script>
+</body>
 </html>

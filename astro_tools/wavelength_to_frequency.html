@@ -1,87 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wavelength to Frequency Converter</title>
-    <link href="tools_style.css" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wavelength ↔ Frequency | Astro Tools</title>
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="tools_style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Wavelength to Frequency Converter</h1>
+<nav id="main-nav">
+  <a class="nav-logo" href="../index.html">AP</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="tools_home.html" class="active">Tools</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-        <label for="wavelength">Enter wavelength (in Angstrom):</label>
-        <input type="number" id="wavelength" placeholder="Enter wavelength"><br>    
-        <button onclick="convertToFrequency()">Convert to Frequency</button><br>
-        
-        <label for="frequency">Enter Frequency (in Hertz):</label>
-        <input type="number" id="frequency" placeholder="Enter frequency"><br>        
-        <button onclick="convertToWavelength()">Convert to Wavelength</button> <br>
+<div class="tool-page">
+  <a href="tools_home.html" class="back-link">← All Tools</a>
+  <p class="section-label" style="margin-bottom:.5rem">Astro Tools</p>
+  <h1>Wavelength <span>↔ Frequency</span></h1>
+  <p class="subtitle">Convert between wavelength (Å), frequency (Hz), and energy (keV)</p>
 
-        <label for="energy">Enter Energy (in KeV):</label>
-        <input type="number" id="energy" placeholder="Enter energy"><br>        
-        <button onclick="convertToWaveAndFreq()">Convert to Angstrom and Hz</button> <br>
-
-        <h2>Converted Value:</h3>
-        <p id="convertedValue"></p>
-    
+  <div class="converter-block">
+    <h2>〰️ Wavelength → Frequency &amp; Energy</h2>
+    <div class="input-row">
+      <div class="input-group" style="flex:2">
+        <label>Wavelength (Ångström)</label>
+        <input type="number" id="wavelength" placeholder="e.g. 1000">
+      </div>
+      <button class="convert-btn" onclick="waveToFreq()">Convert →</button>
     </div>
-    <script>
-        function convertToFrequency() {
-            const wavelength = parseFloat(document.getElementById("wavelength").value);
-            if (wavelength > 0) {
-                // Convert Angstrom to meters (1 Angstrom = 1e-10 meters)
-                const wavelengthMeters = wavelength* 1e-10;
-                const planckconst = 4.1357 * 1e-15; // eV-sec.
-                // Speed of light (approximately 299,792,458 meters per second)
-                const speedOfLight = 299792458;
-                
-                const frequency = speedOfLight / wavelengthMeters;
-                const energy = frequency * planckconst;
-                const energyKeV = energy/1000;
-                document.getElementById("convertedValue").textContent = "Frequency = " + frequency.toExponential(4) + " Hz,  Energy = " + energyKeV.toFixed(4) + " KeV";
-            } else {
-                document.getElementById("convertedValue").textContent = "Invalid wavelength";
-            }
-        }
-            
-        function convertToWavelength() {
-            const frequency = parseFloat(document.getElementById("frequency").value);
-            if (frequency > 0) {
-               
-                // Speed of light (approximately 299,792,458 meters per second)
-                const speedOfLight = 299792458;
-                const planckconst = 4.1357 * 1e-15; // eV-sec.
-                const wavelength = speedOfLight / frequency;
-                const wavelengthAngstrom = wavelength * 1e10
-                const energy = frequency * planckconst;
-                const energyKeV = energy/1000;
-                document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toExponential(4) + " Angstrom,  Energy = " + energyKeV.toExponential(4) + " KeV";
-            
-            } else {
-                document.getElementById("convertedValue").textContent = "Invalid frequency";
-            }
-        }
+    <div class="result-box" id="res1"><div class="result-label">Result</div><div id="res1val"></div></div>
+  </div>
 
+  <div class="converter-block">
+    <h2>📡 Frequency → Wavelength &amp; Energy</h2>
+    <div class="input-row">
+      <div class="input-group" style="flex:2">
+        <label>Frequency (Hz)</label>
+        <input type="number" id="frequency" placeholder="e.g. 3e15">
+      </div>
+      <button class="convert-btn" onclick="freqToWave()">Convert →</button>
+    </div>
+    <div class="result-box" id="res2"><div class="result-label">Result</div><div id="res2val"></div></div>
+  </div>
 
+  <div class="converter-block">
+    <h2>⚡ Energy (keV) → Wavelength &amp; Frequency</h2>
+    <div class="input-row">
+      <div class="input-group" style="flex:2">
+        <label>Energy (keV)</label>
+        <input type="number" id="energy" placeholder="e.g. 1.0">
+      </div>
+      <button class="convert-btn" onclick="energyToWave()">Convert →</button>
+    </div>
+    <div class="result-box" id="res3"><div class="result-label">Result</div><div id="res3val"></div></div>
+  </div>
+</div>
 
-        function convertToWaveAndFreq() {
-            const energy = parseFloat(document.getElementById("energy").value);
-            if (energy > 0) {
-                const energyeV = energy * 1000
-                // Speed of light (approximately 299,792,458 meters per second)
-                const speedOfLight = 299792458;
-                const planckconst = 4.1357 * 1e-15; // eV-sec.
-                const frequency = energyeV / planckconst;
-                const wavelength = speedOfLight / frequency;
-                const wavelengthAngstrom = wavelength * 1e10
-                document.getElementById("convertedValue").textContent ="Wavelength = " + wavelengthAngstrom.toFixed(4) + " Angstrom,  Frequency = " + frequency.toExponential(4) + " Hz";
-            
-            } else {
-                document.getElementById("convertedValue").textContent = "Invalid energy";
-            }
-        }
-    </script>
+<footer>
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+</footer>
 
+<script>
+  const c = 299792458, h = 4.1357e-15;
+  window.addEventListener('scroll', () => { document.getElementById('main-nav').style.boxShadow = scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none'; });
+  function showResult(id, html) { const b = document.getElementById(id); b.querySelector('div:last-child').innerHTML = html; b.classList.add('show'); }
+  function waveToFreq() {
+    const lam = parseFloat(document.getElementById('wavelength').value);
+    if (!(lam > 0)) return showResult('res1','<span style="color:#f87171">Invalid wavelength</span>');
+    const freq = c / (lam * 1e-10);
+    const ekeV = (freq * h) / 1000;
+    showResult('res1', `Frequency: <strong>${freq.toExponential(4)} Hz</strong><br>Energy: <strong>${ekeV.toFixed(4)} keV</strong>`);
+  }
+  function freqToWave() {
+    const freq = parseFloat(document.getElementById('frequency').value);
+    if (!(freq > 0)) return showResult('res2','<span style="color:#f87171">Invalid frequency</span>');
+    const lam = (c / freq) * 1e10;
+    const ekeV = (freq * h) / 1000;
+    showResult('res2', `Wavelength: <strong>${lam.toExponential(4)} Å</strong><br>Energy: <strong>${ekeV.toExponential(4)} keV</strong>`);
+  }
+  function energyToWave() {
+    const eKeV = parseFloat(document.getElementById('energy').value);
+    if (!(eKeV > 0)) return showResult('res3','<span style="color:#f87171">Invalid energy</span>');
+    const freq = (eKeV * 1000) / h;
+    const lam = (c / freq) * 1e10;
+    showResult('res3', `Wavelength: <strong>${lam.toFixed(4)} Å</strong><br>Frequency: <strong>${freq.toExponential(4)} Hz</strong>`);
+  }
+</script>
 </body>
 </html>
