@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="theme.css" />
     <style>
       /* ── HERO ── */
-      #home {
+      #intro {
         position: relative;
         min-height: 100vh;
         display: flex;
@@ -99,7 +99,7 @@
         }
       }
       h1.hero-name {
-        font-family: "Syne", sans-serif;
+        font-family: "Fraunces", sans-serif;
         font-size: clamp(2.8rem, 5vw, 4.5rem);
         font-weight: 800;
         line-height: 1.05;
@@ -141,7 +141,7 @@
         gap: 2.5rem;
       }
       .stat-num {
-        font-family: "Syne", sans-serif;
+        font-family: "Fraunces", sans-serif;
         font-size: 1.8rem;
         font-weight: 700;
         color: var(--accent);
@@ -242,7 +242,7 @@
         margin-bottom: 0.8rem;
       }
       .about-card h3 {
-        font-family: "Syne", sans-serif;
+        font-family: "Fraunces", sans-serif;
         font-size: 0.95rem;
         font-weight: 600;
         margin-bottom: 0.7rem;
@@ -322,7 +322,7 @@
         letter-spacing: 0.06em;
       }
       .timeline-title {
-        font-family: "Syne", sans-serif;
+        font-family: "Fraunces", sans-serif;
         font-size: 0.95rem;
         font-weight: 600;
         margin-bottom: 0.2rem;
@@ -354,7 +354,7 @@
         transform: translateY(-3px);
       }
       .achievement-rank {
-        font-family: "Syne", sans-serif;
+        font-family: "Fraunces", sans-serif;
         font-size: 2rem;
         font-weight: 800;
         color: var(--gold);
@@ -439,7 +439,7 @@
       }
       /* Conferences */
       .conf-section-title {
-        font-family: "Syne", sans-serif;
+        font-family: "Fraunces", sans-serif;
         font-size: 1rem;
         font-weight: 600;
         color: var(--accent);
@@ -526,7 +526,7 @@
       }
       /* Responsive */
       @media (max-width: 900px) {
-        #home {
+        #intro {
           padding: 6rem 1.5rem 3rem;
         }
         .hero-inner {
@@ -555,13 +555,43 @@
           grid-template-columns: 1fr;
         }
       }
+    
+      #intro{min-height:auto;padding-top:8rem}
+    
+      /* ── NEW HOME + ABOUT ── */
+      #home{position:relative;min-height:100vh;overflow:hidden}
+     .hero-greet{position:absolute;top:6.2rem;left:3rem;z-index:2;text-align:left;max-width:min(620px,70vw)}
+      .hero-hi{display:flex;flex-direction:column;align-items:flex-start;line-height:1.05}
+      .hi-script{font-family:"Great Vibes",cursive;font-weight:400;font-size:clamp(2.1rem,4vw,3.3rem);color:#ffd9a0;text-shadow:0 0 22px rgba(255,170,64,.45);animation:rise 1.4s cubic-bezier(.2,.7,.2,1) both}
+      .hi-name{font-family:"Fraunces",serif;font-weight:800;letter-spacing:-.03em;font-size:clamp(2rem,4.6vw,3.9rem);background:linear-gradient(110deg,#ffd54f 0%,#ff9a56 35%,#ff6f91 65%,#e040fb 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,140,60,.28));animation:rise 1.6s .25s cubic-bezier(.2,.7,.2,1) both,shimmer 8s ease-in-out infinite}
+      .hero-degree{margin-top:.8rem;padding-top:.7rem;border-top:1px solid rgba(255,213,79,.35);display:inline-block;font-family:"JetBrains Mono",monospace;font-size:clamp(.68rem,1.1vw,.82rem);letter-spacing:.1em;text-transform:uppercase;color:#e9dccb;animation:rise 1.6s .5s cubic-bezier(.2,.7,.2,1) both}
+      @keyframes rise{from{opacity:0;transform:translateY(24px);filter:blur(8px)}to{opacity:1;transform:none}}
+      .scroll-cue{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);z-index:2;color:var(--accent);font-size:2rem;text-decoration:none;animation:cue 2s ease-in-out infinite}
+      @keyframes cue{0%,100%{transform:translate(-50%,0);opacity:.5}50%{transform:translate(-50%,8px);opacity:1}}
+      #about{position:relative;min-height:100vh;display:flex;align-items:center;padding:6rem 3rem 3rem;overflow:hidden}
+      .about-h{font-family:"Fraunces",serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:1rem;line-height:1.1}
+      #expertise,#publications,#conferences,#contact{scroll-margin-top:56px}
+      @media (max-width:900px){.hero-greet{left:1.5rem;right:1.5rem;top:5.2rem}#about{padding:6rem 1.5rem 3rem}}
+    /* About: fit on one screen */
+#about{padding:5.5rem 3rem 2rem}
+#about .hero-inner{grid-template-columns:1fr 300px;gap:2.5rem}
+#about .about-h{margin-bottom:.6rem}
+#about .hero-desc{max-width:none;font-size:1rem;font-weight:400;line-height:1.7;color:#e4ebf2;margin-bottom:1.4rem}
+#about .hero-actions{margin-bottom:1.4rem}
+#about .hero-photo-wrap{width:260px;height:260px}
+#about .hero-photo{width:210px;height:210px}
+@media (max-height:760px){
+  #about .hero-desc{font-size:.93rem;line-height:1.6}
+  #about .section-label{display:none}
+}
     </style>
   </head>
   <body>
     <nav id="main-nav">
-      <a class="nav-logo" href="index.html">AP</a>
+      <a class="nav-logo" href="#home">AP</a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
         <li><a href="research.html">Research</a></li>
         <li><a href="astro_tools/tools_home.html">Tools</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -572,59 +602,44 @@
     </nav>
 
     <!-- HERO -->
+    <!-- HOME -->
     <section id="home">
-      <div class="hero-glow"></div>
-      <div class="hero-glow2"></div>
+      <div class="hero-bg"></div>
+      <p class="hero-credit">Background: AI-generated illustration of a black hole (not an observation). <a href="https://www.magnific.com" target="_blank" rel="noopener">Designed by Magnific</a></p>
+      <div class="hero-greet">
+        <h1 class="hero-hi"><span class="hi-script">Hi, I am</span><span class="hi-name">Ashwani Pandey</span></h1>
+        <p class="hero-degree">Ph.D. in Physics (Astronomy &amp; Astrophysics)</p>
+      </div>
+      <a class="scroll-cue" href="#about" aria-label="Scroll to About">⌄</a>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
       <div class="hero-inner">
         <div class="hero-text">
-          <div class="hero-badge">
-            Visiting Researcher · KIAA, Peking University
-          </div>
-          <h1 class="hero-name">
-            Ashwani<br /><span class="hero-title-accent">Pandey</span>
-          </h1>
-          <p class="hero-subtitle">
-            Ph.D. in Physics (Astronomy &amp; Astrophysics)
+          <p class="section-label reveal">About</p>
+          <h2 class="about-h reveal">About me</h2>
+          <p class="hero-desc reveal">
+            I am currently visiting Prof Luis C. Ho at the Kavli Institute for Astronomy and Astrophysics (KIAA), 
+Peking University, and a Research Affiliate in the Department of Physics and Astronomy at the University 
+of Utah, USA. I am a very-high-energy (VHE) gamma-ray astrophysicist with extensive experience 
+in stereoscopic observations using the Very Energetic Radiation Imaging Telescope Array System (VERITAS). 
+My research focuses on time-domain variability, broadband spectral energy distribution (SED) modeling, 
+and non-thermal emission from blazars, active galactic nuclei (AGN), and relativistic jets. 
+I use Gammapy and multiwavelength observations from facilities including Fermi-LAT, Swift, XMM-Newton, 
+and NuSTAR to investigate high-energy emission processes. I also conduct photoionization modeling 
+using CLOUDY to probe the physical conditions and gaseous environments surrounding supermassive black 
+holes, particularly in the broad-line regions of AGN.
           </p>
-          <p class="hero-desc">
-            Very high energy (VHE) γ-ray astrophysicist with extensive
-            experience in stereo Imaging Atmospheric Cherenkov Telescope
-            (VERITAS) observations. Researching time-domain variability,
-            broadband spectral modeling, and non-thermal emission from
-            blazars, AGN, and relativistic jets using GammaPy and
-            multiwavelength data from Fermi-LAT, Swift, XMM-Newton, and
-            NuSTAR.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="Ashwani_CV.pdf" download
-              >⬇ Download CV</a
-            >
-            <a
-              class="btn btn-outline"
-              href="https://scholar.google.co.in/citations?user=rdFCKx8AAAAJ&hl=en"
-              target="_blank"
-              >Google Scholar</a
-            >
-            <a
-              class="btn btn-outline"
-              href="https://www.researchgate.net/profile/Ashwani-Pandey-4"
-              target="_blank"
-              >Research Gate</a
-            >
+          <div class="hero-actions reveal">
+            <a class="btn btn-primary" href="Ashwani_CV.pdf" download>⬇ Download CV</a>
+            <a class="btn btn-outline" href="https://scholar.google.co.in/citations?user=rdFCKx8AAAAJ&hl=en" target="_blank">Google Scholar</a>
+            <a class="btn btn-outline" href="https://www.researchgate.net/profile/Ashwani-Pandey-4" target="_blank">Research Gate</a>
           </div>
-          <div class="hero-stats">
-            <div class="stat">
-              <span class="stat-num">40+</span
-              ><span class="stat-label">Publications</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">14+</span
-              ><span class="stat-label">Lead-author publications</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">6+</span
-              ><span class="stat-label">Years Post PhD Research Experience</span>
-            </div>
+          <div class="hero-stats reveal">
+            <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Publications</span></div>
+            <div class="stat"><span class="stat-num">14+</span><span class="stat-label">Lead-author publications</span></div>
+            <div class="stat"><span class="stat-num">6+</span><span class="stat-label">Years Post PhD Research Experience</span></div>
           </div>
         </div>
         <div class="hero-photo-wrap">
@@ -643,54 +658,10 @@
 
     <div class="section-divider"></div>
 
-    <!-- ABOUT -->
-    <section id="about">
+    <!-- SKILLS, EXPERIENCE, EDUCATION -->
+    <section id="expertise">
       <div class="section-inner">
-        <p class="section-label reveal">About</p>
-        <h2 class="page-title reveal">Research &amp; <span>Expertise</span></h2>
-        <div class="about-grid">
-          <div class="about-card reveal">
-            <div class="about-card-icon">🌌</div>
-            <h3>Research Focus</h3>
-            <p>
-              Very high energy (VHE) γ-ray astrophysics with the VERITAS
-              stereo IACT array, focused on time-domain variability,
-              broadband spectral modeling, and non-thermal emission from
-              AGN, relativistic jets, and TeV blazars. Studies particle
-              acceleration and transient phenomena in these sources.
-            </p>
-          </div>
-          <div class="about-card reveal">
-            <div class="about-card-icon">💻</div>
-            <h3>Computational Methods</h3>
-            <p>
-              End-to-end VHE data analysis with GammaPy — from event-level
-              data to spectral and spatial likelihood modeling — including
-              joint fits combining VERITAS, MAGIC, and LST-1 with Fermi-LAT,
-              X-ray, and optical data. Cross-validated against the
-              collaboration-level VEGAS pipeline.
-            </p>
-          </div>
-          <div class="about-card reveal" style="grid-column: 1/-1">
-            <div class="about-card-icon">📍</div>
-            <h3>Current Position</h3>
-            <p>
-              Visiting Researcher with Prof. Luis C. Ho at the Kavli
-              Institute for Astronomy and Astrophysics (KIAA), Peking
-              University, Beijing, China (since June 2026). Previously a
-              Postdoctoral Research Associate with Prof. Qi Feng on the
-              VERITAS collaboration at the University of Utah (2024–2026),
-              and held postdoctoral fellowships at the Center for
-              Theoretical Physics PAS (Warsaw), the Indian Institute of
-              Astrophysics (IIA, Bengaluru), and ARIES (Nainital). Ph.D. in
-              Physics (Astronomy &amp; Astrophysics) on multi-wavelength
-              studies of TeV blazars, ARIES / DDU Gorakhpur University,
-              India (2019).
-            </p>
-          </div>
-        </div>
-
-        <p class="section-label reveal" style="margin-top: 3rem">
+        <p class="section-label reveal">
           Technical Skills
         </p>
         <div class="skills-grid reveal">
@@ -1587,6 +1558,11 @@
         <h2 class="page-title reveal">Seminars &amp; Conferences</h2>
         <div class="conf-section-title reveal">🌍 International</div>
         <div class="conf-item reveal">
+          <span class="conf-type conf-attended">Colloquium</span
+          ><strong>“VHE Observations of ‘Changing-Look Blazars’ with VERITAS”</strong
+          ><br />IHEP (LHAASO Collaboration) · Beijing, China · August 25, 2026
+        </div>
+        <div class="conf-item reveal">
           <span class="conf-type conf-oral">Oral</span
           ><strong>"VERITAS Observations of Changing-look Blazars"</strong
           ><br />ICRC 2025 · Geneva, Switzerland · July 2025
@@ -1680,41 +1656,25 @@
           <div class="reveal">
             <p class="contact-desc">
               I'm open to collaborations, research discussions, and academic
-              connections. Feel free to reach out through any of the channels
-              below.
+              connections.
             </p>
             <p class="contact-desc" style="margin-top: 1rem">
               Kavli Institute for Astronomy and Astrophysics (KIAA)<br />Peking
               University<br />Beijing, China
             </p>
+            <p class="contact-desc" style="margin-top: 1rem">
+              Email: <span id="email-slot" data-e="YXNod2FuaXRhcGFuQGdtYWlsLmNvbQ=="><noscript>ashwanitapan [at] gmail [dot] com</noscript></span>
+            </p>
           </div>
-          <div class="contact-links reveal">
-            <a
-              class="contact-link"
-              href="https://scholar.google.co.in/citations?user=rdFCKx8AAAAJ&hl=en"
-              target="_blank"
-              ><span class="contact-link-icon">🎓</span
-              ><span>Google Scholar</span></a
-            >
-            <a
-              class="contact-link"
-              href="https://www.researchgate.net/profile/Ashwani-Pandey-4"
-              target="_blank"
-              ><span class="contact-link-icon">🔬</span
-              ><span>ResearchGate</span></a
-            >
-            <a class="contact-link" href="research.html"
-              ><span class="contact-link-icon">📄</span
-              ><span>Research Page</span></a
-            >
-            <a class="contact-link" href="astro_tools/tools_home.html"
-              ><span class="contact-link-icon">🛠</span
-              ><span>Astro Tools</span></a
-            >
-            <a class="contact-link" href="Ashwani_CV.pdf" download
-              ><span class="contact-link-icon">📥</span
-              ><span>Download CV</span></a
-            >
+          <div class="contact-form-wrap reveal">
+            <form id="contact-form" novalidate>
+              <label>Name<input type="text" name="name" required autocomplete="name" /></label>
+              <label>Your email<input type="email" name="email" required autocomplete="email" /></label>
+              <label>Message<textarea name="message" rows="5" required></textarea></label>
+              <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" />
+              <button class="btn btn-primary" type="submit">Send message</button>
+              <p class="form-status" id="form-status" role="status"></p>
+            </form>
           </div>
         </div>
       </div>
@@ -1753,5 +1713,6 @@
         btn.textContent = hidden ? "Show Fewer" : "Show All Publications (44)";
       }
     </script>
+    <script src="site.js" defer></script>
   </body>
 </html>

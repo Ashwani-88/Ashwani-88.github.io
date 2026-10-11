@@ -11,7 +11,7 @@
     .research-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.8rem; transition:border-color .2s,transform .2s; }
     .research-card:hover { border-color:rgba(79,195,247,0.4); transform:translateY(-3px); }
     .research-card-icon { font-size:2rem; margin-bottom:1rem; }
-    .research-card h3 { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:var(--accent); margin-bottom:.7rem; }
+    .research-card h3 { font-family:'Fraunces',sans-serif; font-size:1.05rem; font-weight:700; color:var(--accent); margin-bottom:.7rem; }
     .research-card p { font-size:.88rem; color:#9aacba; line-height:1.8; }
     .subpage-nav { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:2rem; }
     .subpage-link { display:inline-flex; align-items:center; gap:.5rem; padding:.6rem 1.2rem; background:var(--bg2); border:1px solid var(--border); border-radius:8px; text-decoration:none; color:var(--muted); font-size:.82rem; font-family:'JetBrains Mono',monospace; letter-spacing:.04em; transition:all .2s; }
@@ -19,7 +19,7 @@
     /* AGN content */
     .content-body { font-size:.95rem; color:#b0bec8; line-height:1.9; }
     .content-body p { margin-bottom:1.2rem; }
-    .content-body h3 { font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--accent); margin:2rem 0 .7rem; }
+    .content-body h3 { font-family:'Fraunces',sans-serif; font-size:1.1rem; color:var(--accent); margin:2rem 0 .7rem; }
     .content-body ul { margin-left:1.5rem; margin-bottom:1rem; }
     .content-body ul li { margin-bottom:.5rem; }
     .content-body sup { font-size:.7em; }
@@ -29,7 +29,7 @@
     .content-body figcaption { font-size:.8rem; color:var(--muted); margin-top:.7rem; font-style:italic; }
     .content-body figcaption a { color:var(--accent); }
     .refs-list { margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border); }
-    .refs-list h3 { font-family:'Syne',sans-serif; font-size:1rem; color:var(--muted); margin-bottom:1rem; }
+    .refs-list h3 { font-family:'Fraunces',sans-serif; font-size:1rem; color:var(--muted); margin-bottom:1rem; }
     .refs-list li { font-size:.82rem; color:var(--muted); margin-bottom:.4rem; list-style:disc; margin-left:1.2rem; }
     /* Optical tables */
     .obs-table-wrap { overflow-x:auto; margin:1.5rem 0; }
@@ -38,7 +38,7 @@
     .obs-table td { padding:.6rem 1rem; border-bottom:1px solid rgba(255,255,255,0.04); color:#b0bec8; font-family:'JetBrains Mono',monospace; font-size:.82rem; }
     .obs-table tr:hover td { background:rgba(79,195,247,0.03); }
     .source-header { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:1rem 1.4rem; margin:2rem 0 .8rem; }
-    .source-header h4 { font-family:'Syne',sans-serif; font-size:1rem; color:var(--accent); margin-bottom:.3rem; }
+    .source-header h4 { font-family:'Fraunces',sans-serif; font-size:1rem; color:var(--accent); margin-bottom:.3rem; }
     .source-header p { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--muted); }
     /* Tab nav */
     .tab-nav { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:2rem; border-bottom:1px solid var(--border); padding-bottom:.5rem; }
@@ -58,6 +58,7 @@
   <a class="nav-logo" href="index.html">AP</a>
   <ul class="nav-links" id="nav-links">
     <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
     <li><a href="research.html" class="active">Research</a></li>
     <li><a href="astro_tools/tools_home.html">Tools</a></li>
     <li><a href="index.html#contact">Contact</a></li>
@@ -101,15 +102,40 @@
 
   <!-- Sub-page nav -->
   <div class="tab-nav reveal">
-    <button class="tab-btn active" onclick="showTab('agn-section',this)">AGN &amp; Blazars</button>
+    <button class="tab-btn active" onclick="showTab('results-section',this)">Key Results</button>
+    <button class="tab-btn" onclick="showTab('agn-section',this)">AGN &amp; Blazars</button>
     <button class="tab-btn" onclick="showTab('optical-section',this)">Optical Data</button>
     <button class="tab-btn" onclick="showTab('xray-section',this)">X-ray Data</button>
     <button class="tab-btn" onclick="showTab('papers-section',this)">Key Papers</button>
   </div>
 </div>
 
+<!-- KEY RESULTS TAB -->
+<div id="results-section" class="tab-content active">
+  <div class="section-inner" style="padding-top:0">
+    <p class="section-label reveal">Lead-author papers</p>
+    <h2 class="kr-h reveal">Key Results</h2>
+    <div class="kr-list">
+      <a class="kr-row reveal" href="https://doi.org/10.3847/1538-4365/adb427" target="_blank" rel="noopener"><span class="kr-t">New Theoretical Fe II Templates for Bright Quasars</span><span class="kr-j">ApJS, 277, 36 · 2025</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1051/0004-6361/202451840" target="_blank" rel="noopener"><span class="kr-t">Exploring the Disc-Jet Scenario in 3C 273 Using Simultaneous XMM-Newton and NuSTAR Observations</span><span class="kr-j">A&amp;A, 695, 120 · 2025</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.3847/1538-4357/ad9b7c" target="_blank" rel="noopener"><span class="kr-t">B2 1308+326: A Changing-look Blazar or Not?</span><span class="kr-j">ApJ, 978, 120 · 2025</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1051/0004-6361/202347719" target="_blank" rel="noopener"><span class="kr-t">Origin of Broadband Emission from the Transition Blazar B2 1308+326</span><span class="kr-j">A&amp;A, 681, 116 · 2024</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1051/0004-6361/202347819" target="_blank" rel="noopener"><span class="kr-t">Broad-line Region in Active Galactic Nuclei: Dusty or Dustless?</span><span class="kr-j">A&amp;A, 680, 102 · 2023</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1051/0004-6361/202347545" target="_blank" rel="noopener"><span class="kr-t">Investigating the Origin of Optical Flares from TeV Blazar S4 0954+65</span><span class="kr-j">A&amp;A, 679, 28 · 2023</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1051/0004-6361/202244648" target="_blank" rel="noopener"><span class="kr-t">Detection of Minute-timescale γ-ray Variability in BL Lacertae by Fermi-LAT</span><span class="kr-j">A&amp;A, 668, 152 · 2022</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1093/mnras/stab3338" target="_blank" rel="noopener"><span class="kr-t">Correlation Between Optical Flux and Polarization Variations in Flat Spectrum Radio Quasars on Diverse Timescales</span><span class="kr-j">MNRAS, 510, 1809 · 2022</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.3390/galaxies8030055" target="_blank" rel="noopener"><span class="kr-t">NuSTAR View of TeV Blazar Mrk 501</span><span class="kr-j">Galaxies, 8(3), 55 · 2020</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.1093/mnras/staa1598" target="_blank" rel="noopener"><span class="kr-t">Optical Variability of Three Extreme TeV Blazars</span><span class="kr-j">MNRAS, 496, 1430 · 2020</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.3847/1538-4357/ab698e" target="_blank" rel="noopener"><span class="kr-t">Optical Variability of the TeV Blazar 1ES 0806+524 on Diverse Timescales</span><span class="kr-j">ApJ, 890, 72 · 2020</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.3847/1538-4357/aaf974" target="_blank" rel="noopener"><span class="kr-t">Optical Flux and Spectral Variability of the TeV Blazar PG 1553+113</span><span class="kr-j">ApJ, 871, 192 · 2019</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.3847/1538-4357/aabc5b" target="_blank" rel="noopener"><span class="kr-t">X-ray Flux and Spectral Variability of Six TeV Blazars with NuSTAR</span><span class="kr-j">ApJ, 859, 49 · 2018</span><span class="kr-arrow">↗</span></a>
+      <a class="kr-row reveal" href="https://doi.org/10.3847/1538-4357/aa705e" target="_blank" rel="noopener"><span class="kr-t">X-ray Intra-day Variability of Five TeV Blazars with NuSTAR</span><span class="kr-j">ApJ, 841, 123 · 2017</span><span class="kr-arrow">↗</span></a>
+    </div>
+  </div>
+</div>
+
 <!-- AGN TAB -->
-<div id="agn-section" class="tab-content active">
+<div id="agn-section" class="tab-content">
   <div class="section-inner" style="padding-top:0">
     <div class="content-body reveal">
       <h3>Active Galactic Nuclei (AGNs)</h3>
@@ -216,7 +242,7 @@
   <div class="section-inner" style="padding-top:0">
     <div class="coming-soon reveal">
       <div class="cs-icon">☢️</div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;margin-bottom:.8rem;color:var(--accent)">X-ray Data</h3>
+      <h3 style="font-family:'Fraunces',sans-serif;font-size:1.3rem;margin-bottom:.8rem;color:var(--accent)">X-ray Data</h3>
       <p>Detailed X-ray observation logs and spectral analysis results will be updated here soon.</p>
       <p style="margin-top:.5rem">In the meantime, see publications for X-ray results:</p>
       <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem">
@@ -231,7 +257,7 @@
 <div id="papers-section" class="tab-content">
   <div class="section-inner" style="padding-top:0">
     <p class="section-label reveal">Recommended Reading</p>
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;margin-bottom:1.5rem" class="reveal">Key Papers in the Field</h2>
+    <h2 style="font-family:'Fraunces',sans-serif;font-size:1.4rem;margin-bottom:1.5rem" class="reveal">Key Papers in the Field</h2>
     <div class="pub-list reveal">
       <a href="https://doi.org/10.1093/mnras/staa1717" target="_blank" class="pub-item">
         <span class="pub-num">01</span>
@@ -248,7 +274,7 @@
 </div>
 
 <footer>
-  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · University of Utah · 2025
+  <span style="color:var(--accent)">AP</span> · Ashwani Pandey · KIAA, Peking University · 2026
 </footer>
 
 <script>
@@ -263,5 +289,6 @@
     document.querySelectorAll('#'+id+' .reveal').forEach(el => { el.classList.add('visible'); });
   }
 </script>
+<script src="site.js" defer></script>
 </body>
 </html>
