@@ -573,18 +573,35 @@
       #expertise,#publications,#conferences,#contact{scroll-margin-top:56px}
       @media (max-width:900px){.hero-greet{left:1.5rem;right:1.5rem;top:5.2rem}#about{padding:6rem 1.5rem 3rem}}
     /* About: fit on one screen */
+@media (min-width:901px){
 #about{padding:5.5rem 3rem 2rem}
 #about .hero-inner{grid-template-columns:1fr 300px;gap:2.5rem}
+}
 #about .about-h{margin-bottom:.6rem}
 #about .hero-desc{max-width:none;font-size:1rem;font-weight:400;line-height:1.7;color:#e4ebf2;margin-bottom:1.4rem}
 #about .hero-actions{margin-bottom:1.4rem}
+@media (min-width:901px){
 #about .hero-photo-wrap{width:260px;height:260px}
 #about .hero-photo{width:210px;height:210px}
-@media (max-height:760px){
+}
+@media (max-height:760px) and (min-width:901px){
   #about .hero-desc{font-size:.93rem;line-height:1.6}
   #about .section-label{display:none}
 }
-    </style>
+    
+/* About: phone layout (stacked, nothing wider than the screen) */
+@media (max-width:900px){
+  #about{min-height:auto;display:block;padding:5.5rem 1.25rem 2.5rem}
+  #about .hero-inner{grid-template-columns:minmax(0,1fr);gap:1.8rem}
+  #about .hero-text{min-width:0}
+  #about .hero-desc{font-size:.95rem;line-height:1.65;max-width:none}
+  #about .hero-actions{justify-content:center;gap:.6rem}
+  #about .hero-actions .btn{padding:.6rem 1rem;font-size:.82rem}
+  #about .hero-stats{flex-wrap:wrap;justify-content:center;gap:1rem 1.6rem}
+  #about .hero-photo-wrap{width:220px;height:220px;margin-top:2.4rem}
+  #about .hero-photo{width:175px;height:175px}
+}
+</style>
   </head>
   <body>
     <nav id="main-nav">
@@ -1681,8 +1698,8 @@ holes, particularly in the broad-line regions of AGN.
     </section>
 
     <footer>
-      <span style="color: var(--accent)">AP</span> · Ashwani Pandey · University of Utah,
-      USA · 2026
+      <span style="color: var(--accent)">AP</span> · Ashwani Pandey · KIAA,
+      Peking University · 2026
     </footer>
 
     <script>
