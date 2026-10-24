@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Observing Planner | Ashwani Pandey</title>
 <link rel="stylesheet" href="../theme.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#080c14">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="tools_style.css">
 <style>
 .tool-page{max-width:1250px}
@@ -274,6 +277,7 @@ $('geo').onclick=()=>navigator.geolocation&&navigator.geolocation.getCurrentPosi
  $('lat').value=p.coords.latitude.toFixed(4);$('lon').value=p.coords.longitude.toFixed(4);$('obs').value='';showObs();setTonight();update()},
  ()=>{$('err').textContent='Location permission denied. Enter coordinates manually.'});
 try{const s=JSON.parse(localStorage.getItem('obs'));if(s){$('lat').value=s[0];$('lon').value=s[1];if(OBS[s[2]]){$('obs').value=s[2];showObs()}}}catch(e){}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 setTonight();update();setInterval(tick,1000);setInterval(()=>draw(-1),60000);
 </script>
 </body>
