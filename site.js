@@ -32,6 +32,51 @@ var W3F_KEY='adb364a9-cbce-4c1a-b083-c75c7e1f8c62'; // paste your free key from 
   .then(function(r){return r.json()}).then(function(j){if(j.success){say('Thanks, your message was sent.','ok');f.reset()}else{say('Could not send. Please email me directly.','err')}})
   .catch(function(){say('Could not send. Please email me directly.','err')})})
 })();
+// ---- publications: tabs rendered from publications.js ----
+(function(){
+ var list=document.getElementById('pubList'),tabsEl=document.getElementById('pubTabs'),btn=document.getElementById('showMoreBtn');
+ if(!list||!tabsEl)return;
+ var SHOW=8,cur=0,expanded=false;
+ var data=(window.PUBLICATIONS||[]).slice().sort(function(a,b){return (b.year||9999)-(a.year||9999)});
+ function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+ function fmtAuthors(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
+ function pos(p){
+  if(typeof p.position==='number')return p.position;
+  var a=String(p.authors||''),k=a.indexOf('**');if(k<0)return 0;
+  var pre=a.slice(0,k);if(/et al|including|Collaboration|Consortium/i.test(pre))return 0;
+  return pre.split(/\s*,\s*|\s+and\s+/).filter(function(x){return x.trim()}).length+1}
+ var N=data.length;
+ data.forEach(function(p,i){p._n=N-i;p._pos=pos(p);p._st=p.status||'published'});
+ var TABS=[
+  {label:'All',f:function(){return true}},
+  {label:'First author',f:function(p){return p._pos===1}},
+  {label:'Second author',f:function(p){return p._pos===2}},
+  {label:'Third author',f:function(p){return p._pos===3}},
+  {label:'Under review / In press',f:function(p){return p._st!=='published'}}];
+ TABS.forEach(function(t,i){
+  t.count=data.filter(t.f).length;
+  var b=document.createElement('button');b.type='button';b.className='pub-tab'+(i===0?' active':'');
+  b.setAttribute('role','tab');b.innerHTML=t.label+' <span class="pub-count">'+t.count+'</span>';
+  b.addEventListener('click',function(){cur=i;expanded=false;
+   Array.prototype.forEach.call(tabsEl.children,function(x,j){x.classList.toggle('active',j===i)});render()});
+  tabsEl.appendChild(b)});
+ function render(){
+  var arr=data.filter(TABS[cur].f),cap=(cur===0&&!expanded)?SHOW:arr.length;
+  list.innerHTML='';
+  if(!arr.length){list.innerHTML='<p class="pub-empty">Nothing here yet.</p>'}
+  arr.slice(0,cap).forEach(function(p,k){
+   var el=document.createElement(p.link?'a':'div');
+   if(p.link){el.href=p.link;el.target='_blank';el.rel='noopener'}
+   el.className='pub-item pub-in';el.style.animationDelay=(Math.min(k,12)*40)+'ms';
+   var badge=p._st==='in-press'?'In press':(p._st==='under-review'?'Under review':'');
+   var num=cur===0?p._n:arr.length-k;
+   el.innerHTML='<span class="pub-num">'+(num<10?'0':'')+num+'</span><div><div class="pub-title">'+esc(p.title)+'</div><div class="pub-authors">'+fmtAuthors(p.authors)+'</div><div class="pub-journal">'+esc(p.journal)+(p.year?' · '+p.year:'')+(p.note?' · '+esc(p.note):'')+(badge?'<span class="pub-badge">'+badge+'</span>':'')+'</div></div><span class="pub-arrow">→</span>';
+   list.appendChild(el)});
+  if(btn){var more=cur===0&&arr.length>SHOW;btn.style.display=more?'':'none';
+   btn.textContent=expanded?'Show Fewer':'Show All Publications ('+arr.length+')'}}
+ if(btn)btn.addEventListener('click',function(){expanded=!expanded;render()});
+ render();
+})();
 if(RM)return;
 // shooting stars
 var sky=document.createElement('canvas');sky.className='fx-sky';document.body.prepend(sky);

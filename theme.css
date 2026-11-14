@@ -329,3 +329,16 @@ h1.hero-name{background:linear-gradient(120deg,#fff 0%,#cfe9ff 40%,#fff 80%);-we
 #contact-form .btn{align-self:flex-start}
 .form-status{min-height:1.2em;font-size:.85rem;color:var(--muted)}
 .form-status.ok{color:#81c784}.form-status.err{color:#ef9a9a}
+
+
+/* Publication tabs */
+.pub-tabs{display:flex;gap:.5rem;margin:1.6rem 0 1.4rem;overflow-x:auto;padding-bottom:.4rem;scrollbar-width:thin}
+.pub-tab{flex:none;display:inline-flex;align-items:center;gap:.55rem;padding:.5rem 1.05rem;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);font:500 .82rem 'Manrope',sans-serif;cursor:pointer;white-space:nowrap;transition:color .25s,border-color .25s,background .25s,box-shadow .25s}
+.pub-tab:hover{color:var(--text);border-color:rgba(79,195,247,.4)}
+.pub-tab.active{background:rgba(79,195,247,.12);border-color:var(--accent);color:var(--accent);box-shadow:0 0 18px rgba(79,195,247,.15)}
+.pub-count{font:500 .68rem 'JetBrains Mono',monospace;opacity:.75;background:rgba(255,255,255,.06);padding:.05rem .45rem;border-radius:999px}
+.pub-tab.active .pub-count{opacity:1;background:rgba(79,195,247,.18)}
+.pub-item.pub-in{animation:pubIn .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes pubIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pub-empty{color:var(--muted);padding:2rem 1rem;text-align:center;font-style:italic}
+.pub-badge{display:inline-block;margin-left:.5rem;font:500 .62rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,213,79,.3);padding:.05rem .45rem;border-radius:4px}
