@@ -35,7 +35,7 @@ input[type=number]{width:62px}small{color:var(--mu);display:block;margin-top:6px
 <div class="row"><label>Width</label><input type="range" id="sw" min="0" max="14" step=".5"></div>
 <div class="row"><label>Opacity</label><input type="range" id="op" min=".05" max="1" step=".05"></div>
 <div class="row"><label>Rotate</label><input type="range" id="rot" min="-180" max="180" step="1"></div>
-<div class="row" id="krow" style="display:none"><label>Curve</label><input type="range" id="k" min="-1" max="1" step=".05"></div>
+<div class="row" id="krow" style="display:none"><label id="klab">Curve</label><input type="range" id="k" min="-1" max="1" step=".05"></div>
 <div id="txtbox" style="display:none"><div class="row"><label>Text</label><input type="text" id="txt" style="flex:1;min-width:0"></div><div class="row"><select id="sym" class="dd"></select></div><small>Sub/superscripts: F_ν, M_{BH}, L^2</small></div>
 <div class="row" id="labrow" style="display:none"><label style="width:auto"><input type="checkbox" id="lab" checked> Line labels</label></div>
 <div class="g" style="margin-top:6px"><button id="fx">Flip</button><button id="dup">Duplicate</button><button id="fr">To front</button><button id="bk">To back</button><button id="del">Delete</button><button id="un">Undo</button></div>
@@ -57,7 +57,7 @@ const PAL=['#000000','#E69F00','#56B4E9','#009E73','#F0E442','#0072B2','#D55E00'
 const SH={
 rect:['Basic','Rectangle',120,80,'#56B4E9','#000000',2],sq:['Basic','Square',80,80,'#56B4E9','#000000',2],
 ellipse:['Basic','Ellipse',120,80,'#E69F00','#000000',2],circle:['Basic','Circle',80,80,'#E69F00','#000000',2],
-tri:['Basic','Triangle',80,80,'#009E73','#000000',2],star:['Basic','Star',70,70,'#F0E442','#000000',2],text:['Basic','Text',0,28,'#000000','#000000',0],
+tri:['Basic','Triangle',80,80,'#009E73','#000000',2],star:['Basic','Star',70,70,'#F0E442','#000000',2],text:['Basic','Text',0,28,'#000000','#000000',0],pen:['_hidden','Freehand stroke',10,10,'none','#000000',3],
 line:['Lines & curves','Line',160,10,'none','#000000',2.5],dash:['Lines & curves','Dashed line',160,10,'none','#000000',2.5],arrow:['Lines & curves','Arrow',160,10,'#000000','#000000',2.5],
 darrow:['Lines & curves','Double arrow',160,10,'#000000','#000000',2.5],curve:['Lines & curves','Curved line',160,80,'none','#000000',2.5,.6],
 carrow:['Lines & curves','Curved arrow',160,80,'#000000','#000000',2.5,.6],scurve:['Lines & curves','S-curve',160,80,'none','#000000',2.5,.6],
@@ -67,7 +67,7 @@ bhelix:['Photons & fields','Magnetic field (helical)',240,60,'none','#0072B2',2]
 bh:['AGN structure','Black hole',50,50,'#000000','#E69F00',3],disk:['AGN structure','Accretion disk',260,70,'#E69F00','#D55E00',0],
 corona:['AGN structure','Corona (halo)',240,90,'#56B4E9','#0072B2',1.5],lamp:['AGN structure','Corona (lamp-post)',60,60,'#56B4E9','#0072B2',0],
 torusx:['AGN structure','Torus (cross-section)',300,100,'#8B5E3C','#4a2f1a',2],torus:['AGN structure','Torus (ring)',260,120,'#8B5E3C','#4a2f1a',2],
-blr:['AGN structure','Broad-line region',180,110,'#009E73','#005c43',1],cloud:['AGN structure','Cloud (NLR etc.)',120,70,'#56B4E9','#0072B2',2],
+blr:['AGN structure','Broad-line region',180,110,'#009E73','#005c43',1,.25],cloud:['AGN structure','Cloud (NLR etc.)',120,70,'#56B4E9','#0072B2',2],
 jet:['AGN structure','Jet (cone)',300,110,'#0072B2','#0072B2',0],host:['AGN structure','Host galaxy',360,240,'#CC79A7','#CC79A7',0],
 outflow:['Outflows & winds','Biconical outflow (AGN)',300,160,'#56B4E9','#0072B2',2],ysoflow:['Outflows & winds','Bipolar outflow (young star)',320,130,'#56B4E9','#0072B2',2],bipneb:['Outflows & winds','Bipolar nebula (hourglass)',260,150,'#CC79A7','#8a4a76',2],wind:['Outflows & winds','Disk wind',240,140,'none','#009E73',2.5,.5],
 telescope:['Instruments','Telescope',140,160,'#8da4c4','#222222',2],dish:['Instruments','Radio dish',140,150,'#d9dde3','#333333',2],
@@ -76,7 +76,7 @@ observer:['Instruments','Observer (person)',70,140,'#888888','#333333',2],eye:['
 cont:['Spectra','Continuum only',220,140,'#ffffff','#000000',2],em:['Spectra','Emission lines',220,140,'#ffffff','#000000',2],
 bn:['Spectra','Broad + narrow emission',220,140,'#ffffff','#000000',2],nar:['Spectra','Narrow emission only',220,140,'#ffffff','#000000',2],
 abs:['Spectra','Absorption lines',220,140,'#ffffff','#000000',2],sed:['Spectra','Blazar SED (2 humps)',220,140,'#ffffff','#000000',2]};
-const KS=new Set(['curve','carrow','scurve','wind']);
+const KS=new Set(['curve','carrow','scurve','wind','blr']);
 const F=o=>o.nf?'none':o.fill,ST=o=>`fill="${F(o)}" stroke="${o.stroke}" stroke-width="${o.sw}"`;
 const gid=o=>'g'+o.id,E=(rx,ry,cx=0,cy=0)=>`M${cx-rx},${cy}A${rx},${ry} 0 1 0 ${cx+rx},${cy}A${rx},${ry} 0 1 0 ${cx-rx},${cy}Z`;
 const hit=(o,h=16)=>`<rect x="${-o.w/2}" y="${-h/2}" width="${o.w}" height="${h}" fill="#fff" fill-opacity="0"/>`;
@@ -93,6 +93,9 @@ function rich(t,h){t=String(t==null?'':t);const re=/([_^])(\{[^}]*\}|[^{])/g,it=
  while((m=re.exec(t))){if(m.index>last)it.push([t.slice(last,m.index),0]);it.push([m[2].replace(/^\{|\}$/g,''),m[1]=='_'?1:2]);last=re.lastIndex}
  if(last<t.length)it.push([t.slice(last),0]);const off=[0,.22*h,-.38*h];let cur=0,o='';
  it.forEach(([x,k])=>{const dy=off[k]-cur;cur=off[k];o+=`<tspan dy="${dy}" font-size="${k?h*.7:h}">${esc(x)}</tspan>`});return o}
+function penPath(P){const f=v=>v.toFixed(1),m=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];let d=`M${f(P[0][0])},${f(P[0][1])}`;
+ if(P.length==1)d+=`L${f(P[0][0]+.01)},${f(P[0][1])}`;else if(P.length==2)d+=`L${f(P[1][0])},${f(P[1][1])}`;
+ else{const a=m(P[0],P[1]);d+=`L${f(a[0])},${f(a[1])}`;for(let i=1;i<P.length-1;i++){const b=m(P[i],P[i+1]);d+=`Q${f(P[i][0])},${f(P[i][1])} ${f(b[0])},${f(b[1])}`}const l=P[P.length-1];d+=`L${f(l[0])},${f(l[1])}`}return d}
 const D={
 rect:o=>`<rect x="${-o.w/2}" y="${-o.h/2}" width="${o.w}" height="${o.h}" ${ST(o)}/>`,
 ellipse:o=>`<ellipse rx="${o.w/2}" ry="${o.h/2}" ${ST(o)}/>`,
@@ -110,7 +113,7 @@ torus:o=>`<path fill-rule="evenodd" d="${E(o.w/2,o.h/2)}${E(o.w*.27,o.h*.27)}" f
 torusx:o=>{const r=o.w*.14,x=o.w/2-r;return `<ellipse cx="${-x}" rx="${r}" ry="${o.h/2}" ${ST(o)}/><ellipse cx="${x}" rx="${r}" ry="${o.h/2}" ${ST(o)}/>`},
 cloud:o=>{const c=[[-.28,.12,.26,.3],[0,-.12,.3,.38],[.3,.1,.26,.3],[-.05,.18,.3,.3],[.15,-.02,.25,.3]],e=(x,y,a,b,s)=>`<ellipse cx="${x*o.w}" cy="${y*o.h}" rx="${a*o.w}" ry="${b*o.h}" ${s}/>`;
  return c.map(a=>e(...a,`fill="${o.stroke}" stroke="${o.stroke}" stroke-width="${o.sw*2}"`)).join('')+c.map(a=>e(...a,`fill="${F(o)}" stroke="none"`)).join('')},
-blr:o=>{const r=rng(7);let s='';for(let i=0;i<34;i++){const a=r()*6.283,q=.5+.5*Math.sqrt(r()),k=.03+.03*r();s+=`<ellipse cx="${Math.cos(a)*q*o.w*.46}" cy="${Math.sin(a)*q*o.h*.46}" rx="${o.w*k}" ry="${o.w*k*.9}" ${ST(o)} fill-opacity=".85"/>`}return s+hit(o,o.h).replace('y="-'+o.h/2+'"','y="'+-o.h/2+'"')},
+blr:o=>{const r=rng(7),gap=Math.min(90,Math.abs(o.k)*60)*Math.PI/180;let s='';for(let i=0;i<34;i++){const a=r()*6.283,q=.5+.5*Math.sqrt(r()),k=.03+.03*r(),X=Math.cos(a)*q*o.w*.46,Y=Math.sin(a)*q*o.h*.46;if(Math.atan2(Math.abs(X),Math.abs(Y))<gap)continue;s+=`<ellipse cx="${X}" cy="${Y}" rx="${o.w*k}" ry="${o.w*k*.9}" ${ST(o)} fill-opacity=".85"/>`}return s+hit(o,o.h).replace('y="-'+o.h/2+'"','y="'+-o.h/2+'"')},
 jet:o=>`<defs><linearGradient id="${gid(o)}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="${o.fill}"/><stop offset="1" stop-color="${o.fill}" stop-opacity=".08"/></linearGradient></defs><path d="M${-o.w/2},${-o.h*.03}Q0,${-o.h*.12} ${o.w/2},${-o.h/2}V${o.h/2}Q0,${o.h*.12} ${-o.w/2},${o.h*.03}Z" fill="url(#${gid(o)})" stroke="${o.stroke}" stroke-width="${o.sw}" stroke-opacity=".6"/>`,
 host:o=>`<defs><radialGradient id="${gid(o)}"><stop offset="0" stop-color="${o.fill}" stop-opacity=".95"/><stop offset="1" stop-color="${o.fill}" stop-opacity="0"/></radialGradient></defs><ellipse rx="${o.w/2}" ry="${o.h/2}" fill="url(#${gid(o)})"/>`
 };
@@ -153,6 +156,7 @@ ysoflow:o=>{const g=gid(o),W=o.w/2,H=o.h/2,a=o.h*.04;
   for(const f of[.3,.52,.74])s+=`<ellipse cx="${sg*W*f}" rx="${W*.022}" ry="${H*.1}" fill="${o.stroke}"/>`}
  return s+`<ellipse rx="${o.h*.035}" ry="${o.h*.2}" fill="#4a2f1a" fill-opacity=".9"/><circle r="${o.h*.035}" fill="#F0E442" stroke="#222" stroke-width="${o.sw*.5}"/>`}
 });
+D.pen=o=>{const P=(o.pts||[]).map(p=>[p[0]*o.w,p[1]*o.h]);if(!P.length)return'';const d=penPath(P);return HP(d)+`<path d="${d}" fill="${F(o)}" stroke="${o.stroke}" stroke-width="${o.sw}"/>`};
 D.sq=D.rect;D.circle=D.ellipse;
 const LB={em:[[.25,'Lyα',.25],[.55,'C IV',.55],[.78,'Mg II',.78]],bn:[[.22,'Hβ',.22],[.53,'[O III]',.56],[.78,'Hα',.78]],nar:[[.22,'Hβ',.22],[.53,'[O III]',.56],[.78,'Hα',.78]],sed:[[.3,'Synchrotron',.3],[.7,'Inverse Compton',.72]]};
 ['cont','em','bn','nar','abs','sed'].forEach(k=>D[k]=o=>{const w=o.w,h=o.h,fs=Math.max(8,h*.07),x0=-w/2+fs*1.8,pw=w/2-4-x0,y0=h/2-h*.12,H=h*.78;
@@ -179,28 +183,62 @@ function render(){const k=cv.getBoundingClientRect().width/(S.W*U)||1;
   return `<g data-id="${o.id}" transform="translate(${o.x},${o.y}) rotate(${o.rot}) scale(${o.fx?-1:1},1)" opacity="${o.op}">${D[o.t](o)}${ui}</g>`}).join('')}
 function page(){const W=S.W*U,H=S.H*U;cv.setAttribute('viewBox',`0 0 ${W} ${H}`);for(const id of['#bg','#gr']){$(id).setAttribute('width',W);$(id).setAttribute('height',H)}
  $('#gr').style.display=$('#grid').checked?'':'none';$('#bg').setAttribute('fill',$('#tbg').checked?'#fff':'none');render()}
-function sync(){const o=cur();if(!o){$('#txtbox').style.display='none';$('#krow').style.display='none';$('#labrow').style.display='none';return}$('#fill').value=o.fill;$('#stroke').value=o.stroke;$('#nf').checked=!!o.nf;$('#sw').value=o.sw;$('#op').value=o.op;$('#rot').value=o.rot;$('#txt').value=o.text;$('#labrow').style.display=LB[o.t]?'':'none';$('#lab').checked=!o.nl;$('#txtbox').style.display=o.t=='text'?'':'none';$('#krow').style.display=KS.has(o.t)?'':'none';$('#k').value=o.k}
+function sync(){const o=cur();if(!o){$('#txtbox').style.display='none';$('#krow').style.display='none';$('#labrow').style.display='none';return}$('#fill').value=o.fill;$('#stroke').value=o.stroke;$('#nf').checked=!!o.nf;$('#sw').value=o.sw;$('#op').value=o.op;$('#rot').value=o.rot;$('#txt').value=o.text;$('#labrow').style.display=LB[o.t]?'':'none';$('#lab').checked=!o.nl;$('#txtbox').style.display=o.t=='text'?'':'none';$('#krow').style.display=KS.has(o.t)?'':'none';$('#klab').textContent=o.t=='blr'?'Jet gap':'Curve';$('#k').min=o.t=='blr'?0:-1;$('#k').value=Math.abs(o.k)*(o.t=='blr'?1:Math.sign(o.k)||1)}
 const pt=e=>{const p=cv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(cv.getScreenCTM().inverse())};
-cv.onpointerdown=e=>{if(e.target.closest('[data-del]')&&sel){push();objs=objs.filter(o=>o.id!==sel);sel=null;drag=null;sync();render();return}const p=pt(e),h=e.target.closest('[data-h]'),ro=e.target.closest('[data-rot]'),g=e.target.closest('[data-id]');
+cv.onpointerdown=e=>{if(eraseMode){const p=pt(e);er={pushed:false};cv.setPointerCapture(e.pointerId);eraserCursor(p);eraseAt(p);return}if(penMode){const p=pt(e);push();live={pts:[[p.x,p.y]]};cv.setPointerCapture(e.pointerId);livePath();return}
+ if(e.target.closest('[data-del]')&&sel){push();objs=objs.filter(o=>o.id!==sel);sel=null;drag=null;sync();render();return}const p=pt(e),h=e.target.closest('[data-h]'),ro=e.target.closest('[data-rot]'),g=e.target.closest('[data-id]');
  if(ro&&sel){push();drag={m:'o'}}else if(h&&sel){push();drag={m:'r'}}else if(g){sel=+g.dataset.id;const o=cur();push();drag={m:'m',dx:o.x-p.x,dy:o.y-p.y}}else{sel=null;drag=null}
  if(drag)cv.setPointerCapture(e.pointerId);sync();render()};
-cv.onpointermove=e=>{if(!drag)return;const o=cur(),p=pt(e);
+cv.onpointermove=e=>{if(eraseMode){const p=pt(e);eraserCursor(p);if(er)eraseAt(p);return}if(live){const p=pt(e);if(e.shiftKey)live.pts=[live.pts[0],[p.x,p.y]];else live.pts.push([p.x,p.y]);livePath();return}if(!drag)return;const o=cur(),p=pt(e);
  if(drag.m=='o'){let a=Math.atan2(p.y-o.y,p.x-o.x)*180/Math.PI+90;if(a>180)a-=360;if(e.shiftKey)a=Math.round(a/15)*15;o.rot=Math.round(a*10)/10;$('#rot').value=o.rot}else if(drag.m=='m'){o.x=sn(p.x+drag.dx);o.y=sn(p.y+drag.dy)}else{const a=-o.rot*Math.PI/180,dx=p.x-o.x,dy=p.y-o.y;
   if(o.t!='text')o.w=Math.max(10,sn(2*Math.abs(dx*Math.cos(a)-dy*Math.sin(a))));o.h=Math.max(10,sn(2*Math.abs(dx*Math.sin(a)+dy*Math.cos(a))))}render()};
-cv.onpointerup=()=>drag=null;
+cv.onpointerup=cv.onpointercancel=()=>{if(live)finishStroke();er=null;drag=null};
 // library
-const G={};for(const[k,d]of Object.entries(SH))(G[d[0]]=G[d[0]]||[]).push([k,d[1]]);
+const G={};for(const[k,d]of Object.entries(SH)){if(d[0][0]=='_')continue;(G[d[0]]=G[d[0]]||[]).push([k,d[1]])}
 const SYM=[['Greek (lower case)',[['α','alpha'],['β','beta'],['γ','gamma'],['δ','delta'],['ε','epsilon'],['ζ','zeta'],['η','eta'],['θ','theta'],['κ','kappa'],['λ','lambda'],['μ','mu'],['ν','nu'],['ξ','xi'],['π','pi'],['ρ','rho'],['σ','sigma'],['τ','tau'],['φ','phi'],['χ','chi'],['ψ','psi'],['ω','omega']]],
 ['Greek (upper case)',[['Γ','Gamma'],['Δ','Delta'],['Θ','Theta'],['Λ','Lambda'],['Ξ','Xi'],['Π','Pi'],['Σ','Sigma'],['Φ','Phi'],['Ψ','Psi'],['Ω','Omega']]],
 ['Math & astronomy',[['⊙','solar'],['⊕','Earth'],['±','plus-minus'],['×','times'],['÷','divide'],['≈','approx'],['∼','similar'],['≲','less-similar'],['≳','greater-similar'],['≤','less-equal'],['≥','greater-equal'],['≠','not equal'],['∝','proportional'],['∞','infinity'],['°','degree'],['′','arcmin / prime'],['″','arcsec'],['Å','angstrom'],['→','right arrow'],['←','left arrow'],['↑','up arrow'],['↓','down arrow'],['↔','both arrows'],['∂','partial'],['∇','nabla'],['∫','integral'],['√','sqrt'],['·','dot'],['★','star']]]];
 const symOpts=SYM.map(([g,a])=>`<optgroup label="${g}">${a.map(([c,n])=>`<option value="${c}">${c}   ${n}</option>`).join('')}</optgroup>`).join('');
 let html='';for(const g in G)html+=`<h4>${g}</h4><select class="dd"><option value="" selected disabled>Add ${g.toLowerCase()} …</option>${G[g].map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select>`;
-$('#lib').innerHTML=html+`<h4>Symbols</h4><select class="dd" id="symadd"><option value="" selected disabled>Add special character …</option>${symOpts}</select>`;
+const PENUI=`<h4>Draw</h4><div style="display:flex;gap:4px"><button id="penbtn" style="flex:1">✏️ Pen</button><button id="erbtn" style="flex:1">🧽 Eraser</button></div><div id="penopts" style="display:none"><div class="row"><label>Colour</label><input type="color" id="pc" value="#000000"></div><div class="row"><label>Width</label><input type="range" id="pw" min="1" max="24" step=".5" value="3"></div><small>Drag to draw. Hold Shift for a straight line. Pick a swatch (right panel) to change colour. Esc or the button again to stop.</small></div><div id="eropts" style="display:none"><div class="row"><label>Size</label><input type="range" id="es" min="2" max="40" step="1" value="8"></div><div class="row"><label style="width:auto"><input type="checkbox" id="ew"> Whole stroke at once</label></div><small>Drag over a pen stroke to erase part of it (only pen strokes are affected). Ctrl+Z undoes a whole drag. Esc to stop.</small></div>`;
+$('#lib').innerHTML=PENUI+html+`<h4>Symbols</h4><select class="dd" id="symadd"><option value="" selected disabled>Add special character …</option>${symOpts}</select>`;
 $('#sym').innerHTML=`<option value="" selected disabled>Insert symbol into text …</option>`+symOpts;
-$('#lib').onchange=e=>{const el=e.target,v=el.value;el.value='';if(!v)return;push();sel=(el.id=='symadd'?add('text',{text:v,h:32}):add(v)).id;sync();render()};
+$('#lib').onchange=e=>{const el=e.target;if(!el.matches('select'))return;const v=el.value;el.value='';if(!v)return;push();sel=(el.id=='symadd'?add('text',{text:v,h:32}):add(v)).id;sync();render()};
+let penMode=false,live=null;const PEN={c:'#000000',w:3};
+function setPen(on){if(on&&eraseMode)setErase(false);penMode=on;$('#penbtn').classList.toggle('p',on);$('#penopts').style.display=on?'':'none';cv.style.cursor=on?'crosshair':'';if(on){sel=null;sync();render()}}
+$('#penbtn').onclick=()=>setPen(!penMode);
+const ER={r:8,whole:false};let eraseMode=false,er=null;
+function setErase(on){if(on&&penMode)setPen(false);eraseMode=on;$('#erbtn').classList.toggle('p',on);$('#eropts').style.display=on?'':'none';cv.style.cursor=on?'crosshair':'';if(!on){const c=$('#ecur');if(c)c.remove()}if(on){sel=null;sync();render()}}
+$('#erbtn').onclick=()=>setErase(!eraseMode);$('#es').oninput=e=>ER.r=+e.target.value;$('#ew').onchange=e=>ER.whole=e.target.checked;
+function worldPts(o){const a=o.rot*Math.PI/180,c=Math.cos(a),s=Math.sin(a),f=o.fx?-1:1;return o.pts.map(q=>{const lx=q[0]*o.w*f,ly=q[1]*o.h;return[o.x+lx*c-ly*s,o.y+lx*s+ly*c]})}
+function segDist(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],L=dx*dx+dy*dy;let t=L?((p[0]-a[0])*dx+(p[1]-a[1])*dy)/L:0;t=Math.max(0,Math.min(1,t));return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy)}
+function strokeObj(o,run){const s=[run[0]];for(let i=1;i<run.length;i++){const a=s[s.length-1],b=run[i];if(Math.hypot(b[0]-a[0],b[1]-a[1])>=1.5)s.push(b)}
+ if(s[s.length-1]!==run[run.length-1])s.push(run[run.length-1]);
+ const xs=s.map(p=>p[0]),ys=s.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),bw=Math.max(x1-x0,1),bh=Math.max(y1-y0,1),cx=(x0+x1)/2,cy=(y0+y1)/2;
+ return{...o,id:uid++,x:cx,y:cy,w:bw,h:bh,rot:0,fx:0,pts:s.map(p=>[+((p[0]-cx)/bw).toFixed(4),+((p[1]-cy)/bh).toFixed(4)])}}
+function eraseAt(p){const out=[],P=[p.x,p.y];let did=false;
+ for(const o of objs){if(o.t!='pen'||!o.pts||!o.pts.length){out.push(o);continue}
+  const W=worldPts(o),R=ER.r+o.sw/2;let hit=false;
+  if(W.length==1)hit=Math.hypot(P[0]-W[0][0],P[1]-W[0][1])<R;else for(let i=1;i<W.length&&!hit;i++)hit=segDist(P,W[i-1],W[i])<R;
+  if(!hit){out.push(o);continue}
+  if(!er.pushed){push();er.pushed=true}did=true;if(ER.whole)continue;
+  const step=Math.max(1,ER.r/3),Dn=[W[0]];for(let i=1;i<W.length;i++){const a=W[i-1],b=W[i],n=Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/step)||1;for(let j=1;j<=n;j++)Dn.push([a[0]+(b[0]-a[0])*j/n,a[1]+(b[1]-a[1])*j/n])}
+  const runs=[];let cr=[];for(const q of Dn){if(Math.hypot(P[0]-q[0],P[1]-q[1])<R){if(cr.length)runs.push(cr);cr=[]}else cr.push(q)}if(cr.length)runs.push(cr);
+  for(const r of runs)if(r.length>=2)out.push(strokeObj(o,r))}
+ if(did){objs=out;render()}}
+function eraserCursor(p){let c=$('#ecur');if(!c){c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.id='ecur';c.setAttribute('class','ui');c.setAttribute('fill','none');c.setAttribute('stroke','#dc2626');c.setAttribute('stroke-dasharray','3 2');c.style.pointerEvents='none';cv.appendChild(c)}
+ c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);c.setAttribute('r',ER.r);c.setAttribute('stroke-width',1.2*(S.W*U)/cv.getBoundingClientRect().width)}
+cv.onpointerleave=()=>{const c=$('#ecur');if(c)c.remove()};$('#pc').oninput=e=>PEN.c=e.target.value;$('#pw').oninput=e=>PEN.w=+e.target.value;
+function livePath(){let L=$('#live');if(!L){L=document.createElementNS('http://www.w3.org/2000/svg','path');L.id='live';L.setAttribute('class','ui');L.setAttribute('fill','none');L.setAttribute('stroke-linecap','round');L.setAttribute('stroke-linejoin','round');L.style.pointerEvents='none';cv.appendChild(L)}
+ L.setAttribute('stroke',PEN.c);L.setAttribute('stroke-width',PEN.w);L.setAttribute('d',penPath(live.pts))}
+function finishStroke(){const L=$('#live');if(L)L.remove();const raw=live.pts;live=null;const s=[raw[0]];
+ for(let i=1;i<raw.length;i++){const a=s[s.length-1],b=raw[i];if(Math.hypot(b[0]-a[0],b[1]-a[1])>=1.5)s.push(b)}
+ if(raw.length>1&&s[s.length-1]!==raw[raw.length-1])s.push(raw[raw.length-1]);
+ const xs=s.map(p=>p[0]),ys=s.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),bw=Math.max(x1-x0,1),bh=Math.max(y1-y0,1),cx=(x0+x1)/2,cy=(y0+y1)/2;
+ add('pen',{x:cx,y:cy,w:bw,h:bh,stroke:PEN.c,sw:PEN.w,pts:s.map(p=>[+((p[0]-cx)/bw).toFixed(4),+((p[1]-cy)/bh).toFixed(4)])});render()}
 $('#sym').onchange=e=>{const o=cur(),v=e.target.value;e.target.value='';if(o&&o.t=='text'&&v){push();o.text+=v;$('#txt').value=o.text;render()}};
 $('#pal').innerHTML=PAL.map(c=>`<i style="background:${c}" data-c="${c}"></i>`).join('');
-$('#pal').onclick=e=>{const c=e.target.dataset.c,o=cur();if(!c||!o)return;push();o[e.shiftKey?'stroke':'fill']=c;if(!e.shiftKey)o.nf=0;sync();render()};
+$('#pal').onclick=e=>{const c=e.target.dataset.c,o=cur();if(c&&penMode){PEN.c=c;$('#pc').value=c;return}if(!c||!o)return;push();o[e.shiftKey?'stroke':'fill']=c;if(!e.shiftKey)o.nf=0;sync();render()};
 document.querySelector('aside.r').addEventListener('pointerdown',e=>{if(e.target.matches('input[type=range],input[type=color],input[type=text],input[type=checkbox]'))push()},true);
 [['fill','fill'],['stroke','stroke'],['sw','sw',1],['op','op',1],['rot','rot',1],['k','k',1],['txt','text']].forEach(([id,k,n])=>$('#'+id).oninput=e=>{const o=cur();if(!o)return;o[k]=n?+e.target.value:e.target.value;if(k=='fill')o.nf=0,$('#nf').checked=false;render()});
 $('#lab').onchange=e=>{const o=cur();if(o){o.nl=e.target.checked?0:1;render()}};
@@ -215,12 +253,12 @@ const COL=/^(#[0-9a-fA-F]{3,8}|none)$/;
 function safe(d){const num=(v,df)=>Number.isFinite(+v)&&v!==null&&v!==''?+v:df,lim=(v,a,b,df)=>Math.min(b,Math.max(a,num(v,df)));
  const S2={W:lim(d.S&&d.S.W,10,1000,160),H:lim(d.S&&d.S.H,10,1000,100)},out=[];
  (Array.isArray(d.objs)?d.objs:[]).slice(0,2000).forEach(o=>{if(!o||!SH[o.t])return;const q={id:out.length+1,t:o.t};
-  ['x','y','w','h'].forEach(k=>q[k]=lim(o[k],-1e5,1e5,0));q.sw=lim(o.sw,0,100,2);q.k=lim(o.k,-5,5,.5);q.op=lim(o.op,0,1,1);q.rot=lim(o.rot,-3600,3600,0);
+  ['x','y','w','h'].forEach(k=>q[k]=lim(o[k],-1e5,1e5,0));q.sw=lim(o.sw,0,100,2);q.k=lim(o.k,-5,5,.5);if(o.t=='pen')q.pts=(Array.isArray(o.pts)?o.pts:[]).slice(0,5000).map(p=>[lim(p&&p[0],-5,5,0),lim(p&&p[1],-5,5,0)]);q.op=lim(o.op,0,1,1);q.rot=lim(o.rot,-3600,3600,0);
   q.fill=COL.test(o.fill)?o.fill:'#000000';q.stroke=COL.test(o.stroke)?o.stroke:'#000000';q.nf=o.nf?1:0;q.fx=o.fx?1:0;q.nl=o.nl?1:0;q.text=String(o.text==null?'':o.text).slice(0,200);out.push(q)});
  return{objs:out,S:S2,uid:out.length+1}}
 function undo(){const s=hist.pop();if(!s)return;({objs,S,uid}=JSON.parse(s));$('#W').value=S.W;$('#H').value=S.H;if(!cur())sel=null;page();sync()}
 $('#un').onclick=undo;
-document.onkeydown=e=>{if(e.target.matches('input'))return;
+document.onkeydown=e=>{if(e.key=='Escape'&&(penMode||eraseMode)){setPen(false);setErase(false);return}if(e.target.matches('input'))return;
  if((e.ctrlKey||e.metaKey)&&e.key=='z'){e.preventDefault();undo()}
  else if(e.key=='Delete'||e.key=='Backspace'){$('#del').click()}
  else if((e.ctrlKey||e.metaKey)&&e.key=='d'){e.preventDefault();$('#dup').click()}};
